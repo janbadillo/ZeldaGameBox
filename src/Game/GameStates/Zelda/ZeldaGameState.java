@@ -23,12 +23,13 @@ public class ZeldaGameState extends State {
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
-
+    public boolean toggle = true;
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
     public static boolean inCave = false;
     public ArrayList<SolidStaticEntities> caveObjects;
+    public int temp = 0;
 
 
 
@@ -38,6 +39,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
+        ///
         worldScale = 3;
         mapX = 7;
         mapY = 7;
@@ -45,9 +47,11 @@ public class ZeldaGameState extends State {
         mapHeight = 176;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
         cameraOffsetY = ((mapHeight*mapY) + mapY + 1)*worldScale;
+        
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
         caveObjects = new ArrayList<>();
+        
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
@@ -70,8 +74,11 @@ public class ZeldaGameState extends State {
     public void tick() {
         link.tick();
         if (inCave){
-
+        	
+        	
+ 
         }else {
+        	 
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
                     entity.tick();
@@ -92,12 +99,30 @@ public class ZeldaGameState extends State {
             for (SolidStaticEntities entity : caveObjects) {
                 entity.render(g);
             }
+            temp=1;
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.BOLD, 32));
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
             g.drawString("  ALONE !   TAKE  THIS",(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
+            g.drawImage(Images.oldMan,835,470,50,50,null);
+            g.drawImage(Images.fire,705,470,50,50,null);
+            g.drawImage(Images.fire,960,470,50,50,null);
+            g.drawImage(Images.sword,850,560,25,40,null);
+            
+            //DUNGEON MUSIC
+            if(toggle == false) {
+            	handler.getMusicHandler().changeMusic("TempleTime.wav");
+            	toggle = true;
+            }
+            
             link.render(g);
         }else {
+        	//OVERWORLD MUSIC
+        	if(toggle==true) {
+        		handler.getMusicHandler().changeMusic("zeldaoverworld.wav");
+        		toggle = false;
+        	}
+        	
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
@@ -213,6 +238,6 @@ public class ZeldaGameState extends State {
 
     @Override
     public void refresh() {
-
+    	
     }
 }

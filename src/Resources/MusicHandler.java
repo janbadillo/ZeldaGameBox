@@ -53,6 +53,12 @@ public class MusicHandler {
     public void triggerGalaga(){
         changeMusic("space.wav");
     }
+    public void triggerZelda() {
+    	changeMusic("zeldaoverworld.wav");
+    }
+    public void triggerSword() {
+    	changeMusic("TempleTime.wav");
+    }
 
     //Untested
     public void stopAllEffects(){

@@ -41,57 +41,71 @@ public class Link extends BaseMovingEntity {
     @Override
     public void tick() {
         if (movingMap){
+        	
             switch (movingTo) {
                 case RIGHT:
-                    handler.getZeldaGameState().cameraOffsetX++;
-                    newMapX++;
+                    handler.getZeldaGameState().cameraOffsetX+=5;  ///FASTER CAMERA MOVEMENT
+                    newMapX+=5;
                     if (xExtraCounter>0){
-                        x+=2;
-                        xExtraCounter--;
+                        x+=3;
+                        xExtraCounter-=3;
                         animation.tick();
 
                     }else{
-                        x--;
+                        x-=5;
+                        if(newMapX>0) {
+                        	newMapX=0;
+                        }
                     }
                     break;
                 case LEFT:
-                    handler.getZeldaGameState().cameraOffsetX--;
-                    newMapX--;
+                    handler.getZeldaGameState().cameraOffsetX-=5;
+                    newMapX-=5;
                     if (xExtraCounter>0){
-                        x-=2;
-                        xExtraCounter--;
+                        x-=3;
+                        xExtraCounter-=3;
                         animation.tick();
 
                     }else{
-                        x++;
+                        x+=5;
+                        if(newMapX<0) {
+                        	newMapX=0;
+                        }
                     }
                     break;
                 case UP:
-                    handler.getZeldaGameState().cameraOffsetY--;
-                    newMapY++;
+                    handler.getZeldaGameState().cameraOffsetY-=5;
+                    newMapY+=5;
                     if (yExtraCounter>0){
-                        y-=2;
-                        yExtraCounter--;
+                        y-=3;
+                        yExtraCounter-=3;
                         animation.tick();
 
                     }else{
-                        y++;
+                        y+=5;
+                        if(newMapY>0) {
+                        	newMapY=0;
+                        }
                     }
                     break;
                 case DOWN:
-                    handler.getZeldaGameState().cameraOffsetY++;
-                    newMapY--;
+                    handler.getZeldaGameState().cameraOffsetY+=5;
+                    newMapY-=5;
                     if (yExtraCounter>0){
-                        y+=2;
-                        yExtraCounter--;
+                        y+=3;
+                        yExtraCounter-=3;
                         animation.tick();
                     }else{
-                        y--;
+                        y-=5;
+                        if(newMapY<0) {
+                        	newMapY=0;
+                        }
                     }
                     break;
             }
             bounds = new Rectangle(x,y,width,height);
             changeIntersectingBounds();
+            
             if (newMapX == 0 && newMapY == 0){
                 movingMap = false;
                 movingTo = null;
@@ -173,6 +187,7 @@ public class Link extends BaseMovingEntity {
                 if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
                     if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
                         ZeldaGameState.inCave = false;
+                        handler.getZeldaGameState().toggle = true;
                         x = ((DungeonDoor) objects).nLX;
                         y = ((DungeonDoor) objects).nLY;
                         direction = DOWN;
@@ -220,6 +235,7 @@ public class Link extends BaseMovingEntity {
                     else {
                         if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
                             ZeldaGameState.inCave = true;
+                            handler.getZeldaGameState().toggle = false;
                             x = ((DungeonDoor) objects).nLX;
                             y = ((DungeonDoor) objects).nLY;
                             direction = UP;

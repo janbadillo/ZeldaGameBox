@@ -77,6 +77,12 @@ public class Images {
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
     public static BufferedImage[] bouncyEnemyFrames;
+    
+    public static BufferedImage npcImageSheet;
+    public SpriteSheet npcSpriteSheet;
+    public static BufferedImage oldMan;
+    public static BufferedImage fire;
+    public static BufferedImage sword;
 
     public Images() {
 
@@ -221,7 +227,15 @@ public class Images {
             zeldaMap = createImageTransparent(zeldaMap,"zelddaMap_0,128,0,green",new Color(0,128,0).getRGB());
             zeldaImageSheet = createImageTransparent(zeldaImageSheet,"tileSets_0,120,0,green",new Color(0,128,0).getRGB());
             zeldaSpriteSheet = new SpriteSheet(zeldaImageSheet);
-
+            
+            //npc
+            npcImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png"));    
+            npcSpriteSheet = new SpriteSheet(npcImageSheet);
+            oldMan = npcSpriteSheet.crop(18, 11, 16, 16);
+            fire = npcSpriteSheet.crop(52, 11, 16, 16);
+            
+            
+            
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));
             storySpriteSheet = new SpriteSheet(storyImageSheet);
             zeldaTitleFrames[5] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_0.gif"));
@@ -251,6 +265,8 @@ public class Images {
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
             zeldaLinkFrames[6] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             zeldaLinkFrames[7] = zeldaLinkSpriteSheet.crop(230,11,16,16);
+            
+            sword = zeldaLinkSpriteSheet.crop(36, 154, 8, 17);
 
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));
@@ -488,7 +504,7 @@ public class Images {
 
     public BufferedImage invertImage(BufferedImage bufferedImage, String name) {
         String path = Objects.requireNonNull(getClass().getClassLoader().getResource(".")).getPath();
-        String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+        String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
         File imagess = new File(path2.replaceAll("%20"," "));
         if (imagess.exists()){
             try {
@@ -514,7 +530,7 @@ public class Images {
         try
         {
             path = Objects.requireNonNull(getClass().getClassLoader().getResource(".")).getPath();
-            path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+            path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
             f = new File(path2.replaceAll("%20"," "));
             System.out.println("File saved in: "+path2);
             ImageIO.write(bufferedImage, "png", f);
@@ -540,7 +556,7 @@ public class Images {
         int width = image.getWidth();
         int height = image.getHeight();
         String path = Objects.requireNonNull(getClass().getClassLoader().getResource(".")).getPath();
-        String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+        String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
         File imagess = new File(path2.replaceAll("%20"," "));
         if (imagess.exists()){
             try {
@@ -576,7 +592,7 @@ public class Images {
         try
         {
             path = Objects.requireNonNull(getClass().getClassLoader().getResource(".")).getPath();
-            path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+            path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
             f = new File(path2.replaceAll("%20"," "));
             System.out.println("File saved in: "+path2);
             ImageIO.write(img, "png", f);

@@ -109,6 +109,7 @@ public class GameState extends State {
                 if (handler.getState() == handler.getGameState()) {
                     handler.getMouseManager().setUimanager(null);
                     handler.getMusicHandler().stopMusic();
+                    //handler.getMusicHandler().triggerZelda();
                     State.setState(handler.getZeldaIntroState());
                 }
             }
