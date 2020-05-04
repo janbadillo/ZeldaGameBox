@@ -68,11 +68,20 @@ public class Images {
     public static BufferedImage zeldaLinkImage;
     public SpriteSheet zeldaLinkSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
+    public static BufferedImage[] linkAttackRight;
+    public static BufferedImage[] linkAttackLeft;
+    public static BufferedImage[] linkAttackUp;
+    public static BufferedImage[] linkAttackDown;
+
+    public static BufferedImage black;
 
     public static ArrayList<BufferedImage> forestTiles;
     public static ArrayList<BufferedImage> caveTiles;
     public static ArrayList<BufferedImage> mountainTiles;
     public static ArrayList<BufferedImage> graveTiles;
+
+    public static BufferedImage selectionGO;
+    public static BufferedImage gameOverScreen;
 
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
@@ -83,6 +92,17 @@ public class Images {
     public static BufferedImage oldMan;
     public static BufferedImage fire;
     public static BufferedImage sword;
+    public static BufferedImage greenRupee;
+    public static BufferedImage redRupee;
+    public static BufferedImage lifeTitle;
+    public static BufferedImage[] linkHeart;
+    
+    public static BufferedImage zeldaItems;
+    public SpriteSheet zeldaItemsSH;
+    public static BufferedImage zeldaRes;
+    public SpriteSheet zeldaResSH;
+    public static BufferedImage zeldaRes2;
+    public SpriteSheet zeldaResSH2;
 
     public Images() {
 
@@ -116,6 +136,8 @@ public class Images {
         zeldaLinkFrames = new BufferedImage[8];
 
         bouncyEnemyFrames = new BufferedImage[2];
+        
+        linkHeart = new BufferedImage[3];
 
 
 
@@ -220,7 +242,10 @@ public class Images {
 
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
-
+            
+            gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/gameOverScreen.png"));
+            selectionGO = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/continueQuitScreen.png"));
+            
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
             zeldaMap = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/map.png"));
@@ -233,7 +258,33 @@ public class Images {
             npcSpriteSheet = new SpriteSheet(npcImageSheet);
             oldMan = npcSpriteSheet.crop(18, 11, 16, 16);
             fire = npcSpriteSheet.crop(52, 11, 16, 16);
+            black = npcSpriteSheet.crop(165, 10, 16, 18);
             
+            //extra items
+            zeldaItems = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/zeldaITEMS.png"));    
+            zeldaItems = createImageTransparent(zeldaItems,"link_0,0,0_green",new Color(50,148,112).getRGB());
+            zeldaItemsSH = new SpriteSheet(zeldaItems);
+            
+            
+            zeldaRes = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/items.png"));    
+            zeldaRes = createImageTransparent(zeldaRes,"link_255,255,255_white",new Color(0,0,0).getRGB());
+            zeldaResSH = new SpriteSheet(zeldaRes);
+            
+            
+            zeldaRes2 = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menus2pause.png"));    
+            zeldaResSH2 = new SpriteSheet(zeldaRes2);
+            
+            
+            //LINK RES
+            greenRupee = zeldaItemsSH.crop(196,5,8,11);
+            redRupee = zeldaItemsSH.crop(196, 20, 8, 11);
+            lifeTitle = zeldaResSH2.crop(441, 27, 46, 8);
+            
+            //LINK HEALTH
+            
+            linkHeart[0]= zeldaResSH.crop(16, 0, 7, 7);
+            linkHeart[1] = zeldaResSH.crop(8,0,7,7);
+            linkHeart[2] = zeldaResSH.crop(0,0,7,7);
             
             
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));

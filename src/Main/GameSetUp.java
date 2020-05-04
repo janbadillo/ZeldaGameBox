@@ -45,6 +45,7 @@ public class GameSetUp implements Runnable {
     public State zeldaGameState;
     public State zeldaMapMakerState;
     public State zeldaIntroState;
+	public State endGameState;
 
 
 
@@ -83,6 +84,8 @@ public class GameSetUp implements Runnable {
         zeldaGameState = new ZeldaGameState(handler);
         zeldaMapMakerState = new ZeldaMapMakerState(handler);
         zeldaIntroState = new ZeldaIntroStates(handler);
+        endGameState = new EndGameState(handler);
+        
 
         handler.setScoreManager(new ScoreManager(handler));
         handler.setMusicHandler(new MusicHandler(handler));

@@ -59,6 +59,9 @@ public class MusicHandler {
     public void triggerSword() {
     	changeMusic("TempleTime.wav");
     }
+    public void triggerGameOver() {
+    	changeMusic("gameOver.wav");
+    }
 
     //Untested
     public void stopAllEffects(){

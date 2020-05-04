@@ -2,6 +2,7 @@ package Main;
 
 import Display.DisplayScreen;
 import Game.GameStates.*;
+//import Game.GameStates.Zelda.EndGameState;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
@@ -30,7 +31,7 @@ public class Handler {
     private MusicHandler musicHandler;
     private ArrayList<Clip> effects;
     private State lastState;
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false; //this activates cheat codes 
     private Map map;
     private PacMan pacman;
 
@@ -106,7 +107,9 @@ public class Handler {
     public State getState(){
         return State.getState();
     }
-
+    public EndGameState getEndGameState (){
+        return (EndGameState)getGameProperties().endGameState;
+    }
     public ScoreManager getScoreManager() {
         return scoreManager;
     }

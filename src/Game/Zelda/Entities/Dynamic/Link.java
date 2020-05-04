@@ -1,5 +1,6 @@
 package Game.Zelda.Entities.Dynamic;
 
+import Game.GameStates.State;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -9,6 +10,7 @@ import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
@@ -25,17 +27,23 @@ public class Link extends BaseMovingEntity {
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
     public boolean movingMap = false;
     Direction movingTo;
-
+    public boolean dead = false, attacking = false;
+    
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
         speed = 4;
-        health = 6;
+        health = 4;
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[4];
         animList[1] = sprite[5];
 
         animation = new Animation(animSpeed,animList);
+        
+        handler.getZeldaGameState();
+		if(!ZeldaGameState.haveSword) {
+        	attacking = true;
+        }
     }
 
     @Override
@@ -162,6 +170,24 @@ public class Link extends BaseMovingEntity {
                 moving = false;
             }
         }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1)) { //goes into debug mode for cheats
+			handler.DEBUG = !handler.DEBUG;
+        }
+        
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health != 6 && handler.DEBUG) {
+        	health++;
+        	handler.getMusicHandler().playEffect("getHeart.wav");
+        //IF H IS PRESSED W/ DEBUG MODE ON health--CS
+        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && handler.DEBUG) {
+        	dead=true;
+        	health--;
+        	handler.getMusicHandler().playEffect("linkHurt.wav");
+        	if(health==0) {
+        		handler.getMusicHandler().triggerGameOver();
+        		State.setState(handler.getEndGameState());//"We're in the EndGame Now" -DR Strange
+        	}
+        }
     }
 
     @Override
@@ -196,6 +222,9 @@ public class Link extends BaseMovingEntity {
                     //dont move
                     return;
                 }
+                //if((objects instanceof SolidStaticEntities) && objects.bounds.intersects(bounds)){
+                //	ZeldaGameState.haveSword = false;
+               // }
             }
         }
         else {
