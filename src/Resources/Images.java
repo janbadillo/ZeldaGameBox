@@ -74,7 +74,8 @@ public class Images {
     public static BufferedImage[] linkAttackDown;
 
     public static BufferedImage black;
-
+    public static BufferedImage secret;
+    
     public static ArrayList<BufferedImage> forestTiles;
     public static ArrayList<BufferedImage> caveTiles;
     public static ArrayList<BufferedImage> mountainTiles;
@@ -139,7 +140,7 @@ public class Images {
         
         linkHeart = new BufferedImage[3];
 
-
+        
 
         try {
 
@@ -242,6 +243,9 @@ public class Images {
 
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
+            
+            secret = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/rickroll.gif"));
+           
             
             gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/gameOverScreen.png"));
             selectionGO = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/continueQuitScreen.png"));

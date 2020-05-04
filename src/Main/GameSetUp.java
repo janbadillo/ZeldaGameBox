@@ -46,6 +46,7 @@ public class GameSetUp implements Runnable {
     public State zeldaMapMakerState;
     public State zeldaIntroState;
 	public State endGameState;
+	public State secretState;
 
 
 
@@ -85,6 +86,7 @@ public class GameSetUp implements Runnable {
         zeldaMapMakerState = new ZeldaMapMakerState(handler);
         zeldaIntroState = new ZeldaIntroStates(handler);
         endGameState = new EndGameState(handler);
+        secretState = new SecretState(handler);
         
 
         handler.setScoreManager(new ScoreManager(handler));

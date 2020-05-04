@@ -110,6 +110,10 @@ public class Handler {
     public EndGameState getEndGameState (){
         return (EndGameState)getGameProperties().endGameState;
     }
+    
+    public SecretState getSecretState () {
+    	return (SecretState)getGameProperties().secretState;
+    }
     public ScoreManager getScoreManager() {
         return scoreManager;
     }
