@@ -74,7 +74,7 @@ public class Images {
     public static BufferedImage[] linkAttackDown;
 
     public static BufferedImage black;
-    public static BufferedImage secret;
+    
     
     public static ArrayList<BufferedImage> forestTiles;
     public static ArrayList<BufferedImage> caveTiles;
@@ -83,6 +83,7 @@ public class Images {
 
     public static BufferedImage selectionGO;
     public static BufferedImage gameOverScreen;
+    public static BufferedImage rA;
 
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
@@ -243,8 +244,9 @@ public class Images {
 
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
-            
-            secret = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/rickroll.gif"));
+            rA = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/rickAstley.png"));
+
+            //secret = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/rickroll.gif"));
            
             
             gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/gameOverScreen.png"));
@@ -286,9 +288,9 @@ public class Images {
             
             //LINK HEALTH
             
-            linkHeart[0]= zeldaResSH.crop(16, 0, 7, 7);
-            linkHeart[1] = zeldaResSH.crop(8,0,7,7);
-            linkHeart[2] = zeldaResSH.crop(0,0,7,7);
+            linkHeart[0]= zeldaResSH.crop(16, 0, 7, 8);
+            linkHeart[1] = zeldaResSH.crop(8,0,7,8);
+            linkHeart[2] = zeldaResSH.crop(0,0,7,8);
             
             
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));

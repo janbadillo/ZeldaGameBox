@@ -69,8 +69,8 @@ public class EndGameState extends State {
 			handler.getMusicHandler().changeMusic("nature.wav");
 			
 		}else if(num == 3) {
-			//State.setState(state);
-			//handler.getMusicHandler().changeMusic("NGGUP.wav");
+			State.setState(handler.getSecretState());
+			handler.getMusicHandler().changeMusic("NGGUP.wav");
 		}
         
         uiManager.Render(g);
@@ -83,14 +83,7 @@ public class EndGameState extends State {
         uiManager = new UIManager(handler);
         handler.getMouseManager().setUimanager(uiManager);
 
-/*
-        uiManager.addObjects(new UIImageButton((handler.getWidth() / 2) - (handler.getWidth() /16), (handler.getHeight() /2) - (handler.getHeight() /8), handler.getWidth()/8, handler.getHeight()/16, Images.startGameButton, new ClickListlener() {
-            @Override
-            public void onClick() {
-                handler.getMouseManager().setUimanager(null);
-                State.setState(handler.getMenuState());
-            }
-        }));*/
+
     }
 }
 
