@@ -82,6 +82,7 @@ public class Images {
     public static ArrayList<BufferedImage> caveTiles;
     public static ArrayList<BufferedImage> mountainTiles;
     public static ArrayList<BufferedImage> graveTiles;
+    public static ArrayList<BufferedImage> moveTiles;
 
     public static BufferedImage selectionGO;
     public static BufferedImage gameOverScreen;
@@ -142,6 +143,7 @@ public class Images {
         caveTiles = new ArrayList<>();
         graveTiles = new ArrayList<>();
         mountainTiles = new ArrayList<>();
+        moveTiles = new ArrayList<>();
 
         zeldaLinkFrames = new BufferedImage[8];
 
@@ -584,6 +586,11 @@ public class Images {
             graveTiles.add(grave.crop(102,51,16,16));
             graveTiles.add(grave.crop(119,51,16,16));
             graveTiles.add(grave.crop(136,51,16,16));
+            
+            moveTiles.add(zeldaSpriteSheet.crop(1001,62,16,16)); // Up
+            moveTiles.add(zeldaSpriteSheet.crop(984,62,16,16)); // Down
+            moveTiles.add(zeldaSpriteSheet.crop(1018,62,16,16)); // Left
+            moveTiles.add(zeldaSpriteSheet.crop(1035,62,16,16)); // Right
 
 
         }catch (IOException e) {

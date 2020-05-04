@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Created by AlexVR on 3/14/2020
@@ -34,6 +35,8 @@ public class ZeldaMapMakerState extends State {
     boolean rightClicked = false;
     boolean leftClicked = false;
     boolean linkPlaced = false;
+    private boolean randCounter = false;
+    private Random rand = new Random();
 
     public ZeldaMapMakerState(Handler handler) {
         super(handler);
@@ -79,29 +82,33 @@ public class ZeldaMapMakerState extends State {
             }else {
 
                 selector++;
-                if (selector > 4) {
-                    selector = 0;
-                }
-                counter = 0;
-                switch (selector) {
-                    case 0:
-                        selectedList = Images.zeldaTiles;
-                        break;
-                    case 1:
-                        selectedList = Images.forestTiles;
-                        break;
-                    case 2:
-                        selectedList = Images.caveTiles;
-                        break;
-                    case 3:
-                        selectedList = Images.mountainTiles;
-                        break;
-                    case 4:
-                        selectedList = Images.graveTiles;
-                        break;
-                }
             }
+            counter = 0;
         }
+        if (selector > 5) {
+            selector = 0;
+        }
+        switch (selector) {
+            case 0:
+                selectedList = Images.zeldaTiles;
+                break;
+            case 1:
+                selectedList = Images.forestTiles;
+                break;
+            case 2:
+                selectedList = Images.caveTiles;
+                break;
+            case 3:
+                selectedList = Images.mountainTiles;
+                break;
+            case 4:
+                selectedList = Images.graveTiles;
+                break;
+            case 5:
+                selectedList = Images.moveTiles;
+                break;
+        }
+        
         if (linking && !handler.getMouseManager().isLeftPressed()){
             linkingStarted = true;
         }
@@ -230,6 +237,13 @@ public class ZeldaMapMakerState extends State {
                             counter++;
                         }
                         break;
+                    case 5:
+                        if (counter == 3) {
+                            counter = 0;
+                        } else {
+                            counter++;
+                        }
+                        break;
                     default:
                         if (counter == 41) {
                             counter = 0;
@@ -248,6 +262,13 @@ public class ZeldaMapMakerState extends State {
                     case 0:
                         if (counter == 0) {
                             counter = 29;
+                        } else {
+                            counter--;
+                        }
+                        break;
+                    case 5:
+                        if (counter == 0) {
+                            counter = 3;
                         } else {
                             counter--;
                         }
@@ -285,6 +306,23 @@ public class ZeldaMapMakerState extends State {
                 }
             }
         }
+        
+        
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_B)){
+        	BufferedImage tempImg = selectedList.get(selectedList.size()/2);
+        	selectedList.set(selectedList.size()/2, selectedList.get(counter));
+        	selectedList.set(counter, tempImg);
+        }
+        if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_R) && !handler.getKeyManager().shiftPressed) || randCounter){
+        	counter = rand.nextInt(selectedList.size());
+        	randCounter = false;
+        }
+        if (handler.getKeyManager().shiftPressed && handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
+        	System.out.println("bitch");
+        	selector = rand.nextInt(6); // !!!!!!!!!!!!!!! This value must be changed if you add more tiles !!!!!!!!!!!!!!!!
+        	randCounter = true;
+        }
+        
 
     }
 
