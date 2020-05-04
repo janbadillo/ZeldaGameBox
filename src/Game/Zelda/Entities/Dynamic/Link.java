@@ -28,13 +28,13 @@ public class Link extends BaseMovingEntity {
     public boolean movingMap = false;
     Direction movingTo;
     public boolean dead = false, attacking = false;
-    public int maxHealth = 8;
+    public int maxHealth = 6;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
         speed = 4;
-        health = 4;
+        health = 6;
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[4];
         animList[1] = sprite[5];
