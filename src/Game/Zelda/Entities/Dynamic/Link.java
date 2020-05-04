@@ -28,6 +28,7 @@ public class Link extends BaseMovingEntity {
     public boolean movingMap = false;
     Direction movingTo;
     public boolean dead = false, attacking = false;
+    public int maxHealth = 8;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -174,19 +175,35 @@ public class Link extends BaseMovingEntity {
 			handler.DEBUG = !handler.DEBUG;
         }
         
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health != 6 && handler.DEBUG) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health < maxHealth && handler.DEBUG) {
         	health++;
         	handler.getMusicHandler().playEffect("getHeart.wav");
         //IF H IS PRESSED W/ DEBUG MODE ON health--CS
         }
+        
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && handler.DEBUG) {
         	dead=true;
         	health--;
         	handler.getMusicHandler().playEffect("linkHurt.wav");
         	if(health==0) {
         		handler.getMusicHandler().triggerGameOver();
-        		State.setState(handler.getEndGameState());//"We're in the EndGame Now" -DR Strange
+        		State.setState(handler.getEndGameState());    //"We're in the EndGame Now" -DR Strange
         	}
+        }
+        
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Y) && maxHealth != 20 && handler.DEBUG) {
+        	maxHealth += 2;
+        	handler.getMusicHandler().playEffect("getHeart.wav");
+        //press Y to increase maximum hearts
+        }
+        
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_U) && maxHealth != 6 && handler.DEBUG) {
+        	if (health == maxHealth) {
+        		health -= 2;
+        	}
+        	maxHealth -= 2;
+        	handler.getMusicHandler().playEffect("linkHurt.wav");
+        //press T to decrease maximum hearts (minimum is 6 hearts)
         }
     }
 
