@@ -53,59 +53,59 @@ public class Link extends BaseMovingEntity {
         	
             switch (movingTo) {
                 case RIGHT:
-                    handler.getZeldaGameState().cameraOffsetX+=5;  ///FASTER CAMERA MOVEMENT
-                    newMapX+=5;
+                    handler.getZeldaGameState().cameraOffsetX+=10;  ///FASTER CAMERA MOVEMENT
+                    newMapX+=10;
                     if (xExtraCounter>0){
-                        x+=3;
-                        xExtraCounter-=3;
+                        x+=5;
+                        xExtraCounter-=5;
                         animation.tick();
 
                     }else{
-                        x-=5;
+                        x-=10;
                         if(newMapX>0) {
                         	newMapX=0;
                         }
                     }
                     break;
                 case LEFT:
-                    handler.getZeldaGameState().cameraOffsetX-=5;
-                    newMapX-=5;
+                    handler.getZeldaGameState().cameraOffsetX-=10;
+                    newMapX-=10;
                     if (xExtraCounter>0){
-                        x-=3;
-                        xExtraCounter-=3;
+                        x-=5;
+                        xExtraCounter-=5;
                         animation.tick();
 
                     }else{
-                        x+=5;
+                        x+=10;
                         if(newMapX<0) {
                         	newMapX=0;
                         }
                     }
                     break;
                 case UP:
-                    handler.getZeldaGameState().cameraOffsetY-=5;
-                    newMapY+=5;
+                    handler.getZeldaGameState().cameraOffsetY-=10;
+                    newMapY+=10;
                     if (yExtraCounter>0){
-                        y-=3;
-                        yExtraCounter-=3;
+                        y-=5;
+                        yExtraCounter-=5;
                         animation.tick();
 
                     }else{
-                        y+=5;
+                        y+=10;
                         if(newMapY>0) {
                         	newMapY=0;
                         }
                     }
                     break;
                 case DOWN:
-                    handler.getZeldaGameState().cameraOffsetY+=5;
-                    newMapY-=5;
+                    handler.getZeldaGameState().cameraOffsetY+=10;
+                    newMapY-=10;
                     if (yExtraCounter>0){
-                        y+=3;
-                        yExtraCounter-=3;
+                        y+=5;
+                        yExtraCounter-=5;
                         animation.tick();
                     }else{
-                        y-=5;
+                        y-=10;
                         if(newMapY<0) {
                         	newMapY=0;
                         }

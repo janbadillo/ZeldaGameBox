@@ -67,6 +67,8 @@ public class Images {
 
     public static BufferedImage zeldaLinkImage;
     public SpriteSheet zeldaLinkSpriteSheet;
+    public static BufferedImage zeldaLinkImageRev;
+    public SpriteSheet zeldaLinkSpriteSheet2;
     public static BufferedImage[] zeldaLinkFrames;
     public static BufferedImage[] linkAttackRight;
     public static BufferedImage[] linkAttackLeft;
@@ -129,6 +131,12 @@ public class Images {
         zeldaTitleFrames = new BufferedImage[6];
         zeldaStoryFrames = new BufferedImage[8];
         zeldaWorldLayoutTiles = new ArrayList<>();
+        
+        linkAttackRight = new BufferedImage[4];
+        linkAttackLeft = new BufferedImage[4];
+        linkAttackUp = new BufferedImage[4];
+        linkAttackDown = new BufferedImage[4];
+        
 
         forestTiles = new ArrayList<>();
         caveTiles = new ArrayList<>();
@@ -314,6 +322,11 @@ public class Images {
             zeldaLinkImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/link.png"));
             zeldaLinkImage = createImageTransparent(zeldaLinkImage,"link_0,128,0_green",new Color(0,128,0).getRGB());
             zeldaLinkSpriteSheet = new SpriteSheet(createImageTransparent(zeldaLinkImage,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
+            //Reversed
+            zeldaLinkImageRev = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/linkRev.png"));
+            zeldaLinkImageRev = createImageTransparent(zeldaLinkImageRev,"link_0,128,0_green",new Color(0,128,0).getRGB());
+            zeldaLinkSpriteSheet2 = new SpriteSheet(createImageTransparent(zeldaLinkImageRev,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
+            
             zeldaLinkFrames[0] = zeldaLinkSpriteSheet.crop(1,11,16,16);
             zeldaLinkFrames[1] = zeldaLinkSpriteSheet.crop(18,11,16,16);
             zeldaLinkFrames[2] = zeldaLinkSpriteSheet.crop(35,11,16,16);
@@ -323,8 +336,30 @@ public class Images {
             zeldaLinkFrames[6] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             zeldaLinkFrames[7] = zeldaLinkSpriteSheet.crop(230,11,16,16);
             
+            //ATTACK RIGHT
+            linkAttackRight[0]= zeldaLinkSpriteSheet.crop(94, 77, 16, 16);
+            linkAttackRight[1]= zeldaLinkSpriteSheet.crop(111, 77, 27, 17);
+            linkAttackRight[2]= zeldaLinkSpriteSheet.crop(139, 77, 23, 17);
+            linkAttackRight[3]= zeldaLinkSpriteSheet.crop(162, 77, 19, 17);
+            //ATTACK LEFT
+            linkAttackLeft[0]= zeldaLinkSpriteSheet2.crop(261, 77, 16, 16);
+            linkAttackLeft[1]= zeldaLinkSpriteSheet2.crop(234, 77, 27, 17);
+            linkAttackLeft[2]= zeldaLinkSpriteSheet2.crop(209, 77, 23, 17); 
+            linkAttackLeft[3]= zeldaLinkSpriteSheet2.crop(189, 77, 19, 17);
+            //ATTACK UP
+            linkAttackUp[0]= zeldaLinkSpriteSheet.crop(94, 109, 16, 16);
+            linkAttackUp[1]= zeldaLinkSpriteSheet.crop(111, 97, 16, 28);
+            linkAttackUp[2]= zeldaLinkSpriteSheet.crop(128, 98, 27, 16);
+            linkAttackUp[3]= zeldaLinkSpriteSheet.crop(145, 106, 16, 19);
+            //ATTACK DOWN
+            linkAttackDown[0]= zeldaLinkSpriteSheet.crop(94, 47, 16, 16);
+            linkAttackDown[1]= zeldaLinkSpriteSheet.crop(111, 47, 27, 16);
+            linkAttackDown[2]= zeldaLinkSpriteSheet.crop(128, 47, 16, 23);
+            linkAttackDown[3]= zeldaLinkSpriteSheet.crop(145, 47, 16, 16);
+            
+            //
             sword = zeldaLinkSpriteSheet.crop(36, 154, 8, 17);
-
+            //
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));
             zeldaWorldLayoutTiles.add(zeldaWorldLayoutTileSpriteSheet.crop(1,154,152,84));
