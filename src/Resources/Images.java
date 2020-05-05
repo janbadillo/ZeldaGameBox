@@ -70,6 +70,13 @@ public class Images {
     public static BufferedImage zeldaLinkImageRev;
     public SpriteSheet zeldaLinkSpriteSheet2;
     public static BufferedImage[] zeldaLinkFrames;
+    
+    public static BufferedImage[] linkWalkRight;
+    public static BufferedImage[] linkWalkLeft;
+    public static BufferedImage[] linkWalkUp;
+    public static BufferedImage[] linkWalkDown;
+    
+    
     public static BufferedImage[] linkAttackRight;
     public static BufferedImage[] linkAttackLeft;
     public static BufferedImage[] linkAttackUp;
@@ -132,6 +139,11 @@ public class Images {
         zeldaTitleFrames = new BufferedImage[6];
         zeldaStoryFrames = new BufferedImage[8];
         zeldaWorldLayoutTiles = new ArrayList<>();
+        
+        linkWalkRight = new BufferedImage[2];
+        linkWalkLeft = new BufferedImage[2];
+        linkWalkUp = new BufferedImage[2];
+        linkWalkDown = new BufferedImage[2];
         
         linkAttackRight = new BufferedImage[4];
         linkAttackLeft = new BufferedImage[4];
@@ -338,26 +350,27 @@ public class Images {
             zeldaLinkFrames[6] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             zeldaLinkFrames[7] = zeldaLinkSpriteSheet.crop(230,11,16,16);
             
-            //ATTACK RIGHT
-            linkAttackRight[0]= zeldaLinkSpriteSheet.crop(94, 77, 16, 16);
-            linkAttackRight[1]= zeldaLinkSpriteSheet.crop(111, 77, 27, 17);
-            linkAttackRight[2]= zeldaLinkSpriteSheet.crop(139, 77, 23, 17);
-            linkAttackRight[3]= zeldaLinkSpriteSheet.crop(162, 77, 19, 17);
-            //ATTACK LEFT
-            linkAttackLeft[0]= zeldaLinkSpriteSheet2.crop(261, 77, 16, 16);
-            linkAttackLeft[1]= zeldaLinkSpriteSheet2.crop(233, 77, 27, 17);
-            linkAttackLeft[2]= zeldaLinkSpriteSheet2.crop(209, 77, 23, 17); 
-            linkAttackLeft[3]= zeldaLinkSpriteSheet2.crop(189, 77, 19, 17);
+
             //ATTACK UP
             linkAttackUp[0]= zeldaLinkSpriteSheet.crop(94, 109, 16, 16);
             linkAttackUp[1]= zeldaLinkSpriteSheet.crop(111, 97, 16, 28);
-            linkAttackUp[2]= zeldaLinkSpriteSheet.crop(128, 98, 27, 16);
+            linkAttackUp[2]= zeldaLinkSpriteSheet.crop(128, 98, 16, 27);
             linkAttackUp[3]= zeldaLinkSpriteSheet.crop(145, 106, 16, 19);
             //ATTACK DOWN
             linkAttackDown[0]= zeldaLinkSpriteSheet.crop(94, 47, 16, 16);
-            linkAttackDown[1]= zeldaLinkSpriteSheet.crop(111, 47, 27, 16);
-            linkAttackDown[2]= zeldaLinkSpriteSheet.crop(128, 47, 16, 23);
-            linkAttackDown[3]= zeldaLinkSpriteSheet.crop(145, 47, 16, 16);
+            linkAttackDown[1]= zeldaLinkSpriteSheet.crop(111, 47, 16, 27);
+            linkAttackDown[2]= zeldaLinkSpriteSheet.crop(127, 47, 16, 23);
+            linkAttackDown[3]= zeldaLinkSpriteSheet.crop(144, 47, 16, 19);
+            //ATTACK RIGHT
+            linkAttackRight[0]= zeldaLinkSpriteSheet.crop(94, 77, 16, 16);
+            linkAttackRight[1]= zeldaLinkSpriteSheet.crop(111, 77, 27, 16);
+            linkAttackRight[2]= zeldaLinkSpriteSheet.crop(139, 77, 24, 16);
+            linkAttackRight[3]= zeldaLinkSpriteSheet.crop(163, 77, 19, 16);
+            //ATTACK LEFT
+            linkAttackLeft[0] = Images.flipHorizontal(linkAttackRight[0]);
+            linkAttackLeft[1] = Images.flipHorizontal(linkAttackRight[1]);
+            linkAttackLeft[2] = Images.flipHorizontal(linkAttackRight[2]); 
+            linkAttackLeft[3] = Images.flipHorizontal(linkAttackRight[3]);
             
             //
             

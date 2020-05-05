@@ -317,7 +317,12 @@ public class ZeldaMapMakerState extends State {
         	counter = rand.nextInt(selectedList.size());
         	randCounter = false;
         }
-        if (handler.getKeyManager().shiftPressed && handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
+//        if (handler.getKeyManager().shiftPressed && handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
+//        	System.out.println("bitch");
+//        	selector = rand.nextInt(6); // !!!!!!!!!!!!!!! This value must be changed if you add more tiles !!!!!!!!!!!!!!!!
+//        	randCounter = true;
+//        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SHIFT) && handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
         	System.out.println("bitch");
         	selector = rand.nextInt(6); // !!!!!!!!!!!!!!! This value must be changed if you add more tiles !!!!!!!!!!!!!!!!
         	randCounter = true;

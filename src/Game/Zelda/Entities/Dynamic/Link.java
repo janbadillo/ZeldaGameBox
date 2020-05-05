@@ -23,13 +23,14 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private final int animSpeed = 120, attackSpeed = 120;
+    private final int animSpeed = 120, attackSpeed = 40;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
     public boolean movingMap = false, attackAnim = false;
     Direction movingTo;
-    public boolean dead = false, attacking = false;
+    public boolean dead = false, armed = false, attacking;
     public int maxHealth = 6;
-    Animation attackAnimation,leftAnim,rightAnim,upAnim,downAnim;
+    private int tempX, tempY; // used for alligning link when attacking
+    Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -40,12 +41,13 @@ public class Link extends BaseMovingEntity {
         animList[0] = sprite[4];
         animList[1] = sprite[5];
 
-        leftAnim = new Animation(64,Images.linkAttackLeft);
-        rightAnim = new Animation(64,Images.linkAttackRight);
-        upAnim = new Animation(64,Images.linkAttackUp);
-        downAnim = new Animation(64,Images.linkAttackDown);
+        leftAttack = new Animation(64,Images.linkAttackLeft);
+        rightAttack = new Animation(64,Images.linkAttackRight);
+        upAttack = new Animation(64,Images.linkAttackUp);
+        downAttack = new Animation(64,Images.linkAttackDown);
         
-        walkAnimation = new Animation(animSpeed,animList);
+        rightWalk = new Animation(64,Images.linkAttackLeft);
+        //walkAnimation = new Animation(animSpeed,animList);
         attackAnimation = new Animation(attackSpeed,sprite);
         handler.getZeldaGameState();
 		
@@ -127,89 +129,92 @@ public class Link extends BaseMovingEntity {
                 newMapY = 0;
             }
         }else {
-            if (handler.getKeyManager().up) {
-                if (direction != UP) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = sprites[4];
-                    animList[1] = sprites[5];
-                    walkAnimation = new Animation(animSpeed, animList);
-                    direction = UP;
-                    sprite = sprites[4];
-                    
-                }
-                walkAnimation.tick();
-                move(direction);
+        	if (attacking) {
+        		int startWidth = walkAnimation.getCurrentFrame().getWidth()*worldScale;
+				int startHeight = walkAnimation.getCurrentFrame().getHeight()*worldScale;
+				y = tempY;
+				x = tempX;
+        		//width and height must updated so link doesn't look distorted
+        		width = attackAnimation.getCurrentFrame().getWidth()*worldScale;
+        		height = attackAnimation.getCurrentFrame().getHeight()*worldScale;
+        		attackAnimation.tick();
+        		
+        		if (direction == Direction.UP) {
+        			y -= height - startHeight;
+        		} else if (direction == Direction.LEFT) {
+        			x -= width - startWidth;
+        		}
+        		
+        		if (attackAnimation.end) {
+        			x = tempX;
+        			y = tempY;
+        			width = sprite.getWidth()*worldScale;
+        			height = sprite.getHeight()*worldScale;
+        			attacking = false;
+        			moving = true;
+        		}
+        	} else {
+                if (handler.getKeyManager().up) {
+                    if (direction != UP) {
+                        BufferedImage[] animList = new BufferedImage[2];
+                        animList[0] = sprites[4];
+                        animList[1] = sprites[5];
+                        walkAnimation = new Animation(animSpeed, animList);
+                        direction = UP;
+                        sprite = sprites[4];
+                    }
+                    walkAnimation.tick();
+                    move(direction);
 
-            } else if (handler.getKeyManager().down) {
-                if (direction != DOWN) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = sprites[0];
-                    animList[1] = sprites[1];
-                    walkAnimation = new Animation(animSpeed, animList);
-                    direction = DOWN;
-                    sprite = sprites[0];
+                } else if (handler.getKeyManager().down) {
+                    if (direction != DOWN) {
+                        BufferedImage[] animList = new BufferedImage[2];
+                        animList[0] = sprites[0];
+                        animList[1] = sprites[1];
+                        walkAnimation = new Animation(animSpeed, animList);
+                        direction = DOWN;
+                        sprite = sprites[0];
+                    }
+                    walkAnimation.tick();
+                    move(direction);
+                } else if (handler.getKeyManager().left) {
+                    if (direction != Direction.LEFT) {
+                        BufferedImage[] animList = new BufferedImage[2];
+                        animList[0] = Images.flipHorizontal(sprites[2]);
+                        animList[1] = Images.flipHorizontal(sprites[3]);
+                        walkAnimation = new Animation(animSpeed, animList);
+                        direction = Direction.LEFT;
+                        sprite = Images.flipHorizontal(sprites[3]);
+                    }
+                    walkAnimation.tick();
+                    move(direction);
+                } else if (handler.getKeyManager().right) {
+                    if (direction != Direction.RIGHT) {
+                        BufferedImage[] animList = new BufferedImage[2];
+                        animList[0] = (sprites[2]);
+                        animList[1] = (sprites[3]);
+                        walkAnimation = new Animation(animSpeed, animList);
+                        direction = Direction.RIGHT;
+                        sprite = (sprites[3]);
+                    }
+                    walkAnimation.tick();
+                    move(direction);
+                } else {
+                    moving = false;
                 }
-                walkAnimation.tick();
-                move(direction);
-            } else if (handler.getKeyManager().left) {
-                if (direction != Direction.LEFT) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = Images.flipHorizontal(sprites[2]);
-                    animList[1] = Images.flipHorizontal(sprites[3]);
-                    walkAnimation = new Animation(animSpeed, animList);
-                    direction = Direction.LEFT;
-                    sprite = Images.flipHorizontal(sprites[3]);
-                }
-                walkAnimation.tick();
-                move(direction);
-            } else if (handler.getKeyManager().right) {
-                if (direction != Direction.RIGHT) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = (sprites[2]);
-                    animList[1] = (sprites[3]);
-                    walkAnimation = new Animation(animSpeed, animList);
-                    direction = Direction.RIGHT;
-                    sprite = (sprites[3]);
-                }
-                walkAnimation.tick();
-                move(direction);
-            } else {
-                moving = false;
+        	}
+
+        }
+        
+        if(ZeldaGameState.haveSword) {
+        	armed = true;
+        }
+        if (armed) {
+        	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking) {
+        		attack();
             }
         }
-        
-        if(ZeldaGameState.haveSword == true) {
-        	attacking = true;
-        }
-        if (moving == false && attacking == true) {
-        	if(direction == Direction.RIGHT && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-            	handler.getMusicHandler().playEffect("strongAttack.wav");
-            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackRight);
-            	attackAnimation = rightAnim;
-            	attackAnimation.tick();
-            	
-            }else if(direction == Direction.LEFT && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-            	handler.getMusicHandler().playEffect("strongAttack.wav");
-            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackLeft);
-            	attackAnimation = leftAnim;
-            	attackAnimation.tick();
-            	
-        	}else if(direction == Direction.UP && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-            	handler.getMusicHandler().playEffect("strongAttack.wav");
-            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackUp);
-            	attackAnimation = upAnim;
-            	attackAnimation.tick();
-            	
-        	}else if(direction == Direction.DOWN && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-            	handler.getMusicHandler().playEffect("strongAttack.wav");
-            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackDown);
-            	attackAnimation = downAnim;
-            	attackAnimation.tick();
-        	}
-        }
-       
-        
-        
+
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1)) { //goes into debug mode for cheats
 			Handler.DEBUG = !Handler.DEBUG;
         }
@@ -245,20 +250,37 @@ public class Link extends BaseMovingEntity {
         //press T to decrease maximum hearts (minimum is 6 hearts)
         }
     }
-
+    
+    private void attack() {
+    	moving = false;
+    	tempX = x;
+    	tempY = y;
+    	attacking = true;
+    	handler.getMusicHandler().playEffect("strongAttack.wav");
+    	
+    	if(direction == Direction.RIGHT) {
+    		attackAnimation = new Animation(attackSpeed,Images.linkAttackRight);
+    	} else if (direction == Direction.LEFT) {
+    		attackAnimation = new Animation(attackSpeed,Images.linkAttackLeft);
+    	} else if(direction == Direction.UP) {
+    		attackAnimation = new Animation(attackSpeed,Images.linkAttackUp);
+    	} else {
+    		attackAnimation = new Animation(attackSpeed,Images.linkAttackDown);
+    	}
+    }
+    
     @Override
     public void render(Graphics g) {
-        if (moving) {
-            g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
-        }
-        else if(!moving && attacking == true && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-                g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
-        } else {
-            if (movingMap){
+    	if(attacking) {
+    		g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
+    	} else if (moving) {
+    		g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
+    	} else {
+    		if (movingMap){
                 g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
             }
             g.drawImage(sprite, x , y, width , height , null);
-        }
+    	}
         
     }
 
