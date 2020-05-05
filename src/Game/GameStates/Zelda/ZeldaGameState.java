@@ -164,16 +164,28 @@ public class ZeldaGameState extends State {
 		//HEALTH IMPLEMENTATION
 		g.drawImage(Images.lifeTitle,480,170,170,30,null) ;
 		
-		for (int i = 0; i < link.health; i++) {
-		g.drawImage(Images.linkHeart[2],480+30*i,220,25,25,null) ;
-		//g.drawImage(Images.linkHeart[2],((handler.getWidth() / 3) + handler.getWidth() / 5)+ (((handler.getPacman().width) * 2) * (int)i),225, handler.getWidth() / 70, handler.getHeight() / 70,null ) ;
-		 }
+		
+		for (int i = 0; i < link.maxHealth/2; i++) {
+			g.drawImage(Images.linkHeart[0],480+30*i,220,25,25,null) ;
+		}
+		if (link.health % 2 == 0) {
+			for (int i = 0; i < link.health/2; i++) {
+				g.drawImage(Images.linkHeart[2],480+30*i,220,25,25,null) ;
+			//g.drawImage(Images.linkHeart[2],((handler.getWidth() / 3) + handler.getWidth() / 5)+ (((handler.getPacman().width) * 2) * (int)i),225, handler.getWidth() / 70, handler.getHeight() / 70,null ) ;
+			}
+		} else {
+			int i;
+			for (i = 0; i < (link.health - 1)/2; i++) {
+				g.drawImage(Images.linkHeart[2],480+30*i,220,25,25,null);
+			}
+			g.drawImage(Images.linkHeart[1],480+30*i,220,25,25,null);
+		}
+		
 
 	}
 
 	private void addWorldObjects() {
-		
-		
+		//cave
 		for (int i = 0;i < 16;i++){
 			for (int j = 0;j < 11;j++) {
 				if (i>=2 && i<=13 && j>=2 && j< 9 ) {
