@@ -23,12 +23,13 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private final int animSpeed = 120;
+    private final int animSpeed = 120, attackSpeed = 120;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false;
+    public boolean movingMap = false, attackAnim = false;
     Direction movingTo;
     public boolean dead = false, attacking = false;
     public int maxHealth = 6;
+    Animation attackAnimation,leftAnim,rightAnim,upAnim,downAnim;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -39,12 +40,16 @@ public class Link extends BaseMovingEntity {
         animList[0] = sprite[4];
         animList[1] = sprite[5];
 
-        animation = new Animation(animSpeed,animList);
+        leftAnim = new Animation(64,Images.linkAttackLeft);
+        rightAnim = new Animation(64,Images.linkAttackRight);
+        upAnim = new Animation(64,Images.linkAttackUp);
+        downAnim = new Animation(64,Images.linkAttackDown);
         
+        walkAnimation = new Animation(animSpeed,animList);
+        attackAnimation = new Animation(attackSpeed,sprite);
         handler.getZeldaGameState();
-		if(!ZeldaGameState.haveSword) {
-        	attacking = true;
-        }
+		
+        
     }
 
     @Override
@@ -58,7 +63,7 @@ public class Link extends BaseMovingEntity {
                     if (xExtraCounter>0){
                         x+=5;
                         xExtraCounter-=5;
-                        animation.tick();
+                        walkAnimation.tick();
 
                     }else{
                         x-=10;
@@ -73,7 +78,7 @@ public class Link extends BaseMovingEntity {
                     if (xExtraCounter>0){
                         x-=5;
                         xExtraCounter-=5;
-                        animation.tick();
+                        walkAnimation.tick();
 
                     }else{
                         x+=10;
@@ -88,7 +93,7 @@ public class Link extends BaseMovingEntity {
                     if (yExtraCounter>0){
                         y-=5;
                         yExtraCounter-=5;
-                        animation.tick();
+                        walkAnimation.tick();
 
                     }else{
                         y+=10;
@@ -103,7 +108,7 @@ public class Link extends BaseMovingEntity {
                     if (yExtraCounter>0){
                         y+=5;
                         yExtraCounter-=5;
-                        animation.tick();
+                        walkAnimation.tick();
                     }else{
                         y-=10;
                         if(newMapY<0) {
@@ -127,11 +132,12 @@ public class Link extends BaseMovingEntity {
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = sprites[4];
                     animList[1] = sprites[5];
-                    animation = new Animation(animSpeed, animList);
+                    walkAnimation = new Animation(animSpeed, animList);
                     direction = UP;
                     sprite = sprites[4];
+                    
                 }
-                animation.tick();
+                walkAnimation.tick();
                 move(direction);
 
             } else if (handler.getKeyManager().down) {
@@ -139,40 +145,73 @@ public class Link extends BaseMovingEntity {
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = sprites[0];
                     animList[1] = sprites[1];
-                    animation = new Animation(animSpeed, animList);
+                    walkAnimation = new Animation(animSpeed, animList);
                     direction = DOWN;
                     sprite = sprites[0];
                 }
-                animation.tick();
+                walkAnimation.tick();
                 move(direction);
             } else if (handler.getKeyManager().left) {
                 if (direction != Direction.LEFT) {
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = Images.flipHorizontal(sprites[2]);
                     animList[1] = Images.flipHorizontal(sprites[3]);
-                    animation = new Animation(animSpeed, animList);
+                    walkAnimation = new Animation(animSpeed, animList);
                     direction = Direction.LEFT;
                     sprite = Images.flipHorizontal(sprites[3]);
                 }
-                animation.tick();
+                walkAnimation.tick();
                 move(direction);
             } else if (handler.getKeyManager().right) {
                 if (direction != Direction.RIGHT) {
                     BufferedImage[] animList = new BufferedImage[2];
                     animList[0] = (sprites[2]);
                     animList[1] = (sprites[3]);
-                    animation = new Animation(animSpeed, animList);
+                    walkAnimation = new Animation(animSpeed, animList);
                     direction = Direction.RIGHT;
                     sprite = (sprites[3]);
                 }
-                animation.tick();
+                walkAnimation.tick();
                 move(direction);
             } else {
                 moving = false;
             }
         }
+        
+        if(ZeldaGameState.haveSword == true) {
+        	attacking = true;
+        }
+        if (moving == false && attacking == true) {
+        	if(direction == Direction.RIGHT && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+            	handler.getMusicHandler().playEffect("strongAttack.wav");
+            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackRight);
+            	attackAnimation = rightAnim;
+            	attackAnimation.tick();
+            	
+            }else if(direction == Direction.LEFT && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+            	handler.getMusicHandler().playEffect("strongAttack.wav");
+            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackLeft);
+            	attackAnimation = leftAnim;
+            	attackAnimation.tick();
+            	
+        	}else if(direction == Direction.UP && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+            	handler.getMusicHandler().playEffect("strongAttack.wav");
+            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackUp);
+            	attackAnimation = upAnim;
+            	attackAnimation.tick();
+            	
+        	}else if(direction == Direction.DOWN && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+            	handler.getMusicHandler().playEffect("strongAttack.wav");
+            	//attackAnimation = new Animation(attackSpeed, Images.linkAttackDown);
+            	attackAnimation = downAnim;
+            	attackAnimation.tick();
+        	}
+        }
+       
+        
+        
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1)) { //goes into debug mode for cheats
-			handler.DEBUG = !handler.DEBUG;
+			Handler.DEBUG = !Handler.DEBUG;
         }
         
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health < maxHealth && handler.DEBUG) {
@@ -210,14 +249,17 @@ public class Link extends BaseMovingEntity {
     @Override
     public void render(Graphics g) {
         if (moving) {
-            g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
-
+            g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
+        }
+        else if(!moving && attacking == true && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+                g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
         } else {
             if (movingMap){
-                g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
+                g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
             }
             g.drawImage(sprite, x , y, width , height , null);
         }
+        
     }
 
     @Override
@@ -239,9 +281,6 @@ public class Link extends BaseMovingEntity {
                     //dont move
                     return;
                 }
-                //if((objects instanceof SolidStaticEntities) && objects.bounds.intersects(bounds)){
-                //	ZeldaGameState.haveSword = false;
-               // }
             }
         }
         else {

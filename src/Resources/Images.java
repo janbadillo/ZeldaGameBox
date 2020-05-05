@@ -345,7 +345,7 @@ public class Images {
             linkAttackRight[3]= zeldaLinkSpriteSheet.crop(162, 77, 19, 17);
             //ATTACK LEFT
             linkAttackLeft[0]= zeldaLinkSpriteSheet2.crop(261, 77, 16, 16);
-            linkAttackLeft[1]= zeldaLinkSpriteSheet2.crop(234, 77, 27, 17);
+            linkAttackLeft[1]= zeldaLinkSpriteSheet2.crop(233, 77, 27, 17);
             linkAttackLeft[2]= zeldaLinkSpriteSheet2.crop(209, 77, 23, 17); 
             linkAttackLeft[3]= zeldaLinkSpriteSheet2.crop(189, 77, 19, 17);
             //ATTACK UP
@@ -360,6 +360,7 @@ public class Images {
             linkAttackDown[3]= zeldaLinkSpriteSheet.crop(145, 47, 16, 16);
             
             //
+            
             sword = zeldaLinkSpriteSheet.crop(36, 154, 8, 17);
             //
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));

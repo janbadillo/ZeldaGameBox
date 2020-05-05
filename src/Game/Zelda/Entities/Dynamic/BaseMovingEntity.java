@@ -17,7 +17,7 @@ public class BaseMovingEntity extends BaseEntity {
 
     int speed;
     Direction direction;
-    Animation animation;
+    Animation walkAnimation;
     BufferedImage[] sprites;
     boolean moving = false;
     boolean dead = false;
@@ -28,7 +28,7 @@ public class BaseMovingEntity extends BaseEntity {
 
     public BaseMovingEntity(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite[0], handler);
-        animation = new Animation(256,sprite);
+        walkAnimation = new Animation(256,sprite);
         bounds = new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
         speed=2;
         direction = UP;
