@@ -29,8 +29,10 @@ public class Link extends BaseMovingEntity {
     Direction movingTo;
     public boolean dead = false, armed = false, attacking;
     public int maxHealth = 6;
-    private int tempX, tempY; // used for alligning link when attacking
+    private int tempX, tempY,  // used for alligning link when attacking
+                swordWidth, swordHeight; // for establishing sword hitbox width and height;
     Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk;
+    public Rectangle swordHitbox;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -51,7 +53,8 @@ public class Link extends BaseMovingEntity {
         attackAnimation = new Animation(attackSpeed,sprite);
         handler.getZeldaGameState();
 		
-        
+        swordWidth = width/3;
+        swordHeight = height;
     }
 
     @Override
@@ -152,6 +155,7 @@ public class Link extends BaseMovingEntity {
         			height = sprite.getHeight()*worldScale;
         			attacking = false;
         			moving = true;
+        			swordHitbox = null;
         		}
         	} else {
                 if (handler.getKeyManager().up) {
@@ -260,13 +264,18 @@ public class Link extends BaseMovingEntity {
     	
     	if(direction == Direction.RIGHT) {
     		attackAnimation = new Animation(attackSpeed,Images.linkAttackRight);
+    		swordHitbox = new Rectangle(tempX + width, tempY + width/2 - swordWidth/2, swordHeight, swordWidth);
     	} else if (direction == Direction.LEFT) {
     		attackAnimation = new Animation(attackSpeed,Images.linkAttackLeft);
+    		swordHitbox = new Rectangle(tempX - swordHeight, tempY + width/2 - swordWidth/2, swordHeight, swordWidth);
     	} else if(direction == Direction.UP) {
     		attackAnimation = new Animation(attackSpeed,Images.linkAttackUp);
+    		swordHitbox = new Rectangle(tempX + width/2 - swordWidth/2, y - swordHeight, swordWidth, swordHeight);
     	} else {
     		attackAnimation = new Animation(attackSpeed,Images.linkAttackDown);
+    		swordHitbox = new Rectangle(tempX + width/2 - swordWidth/2, tempY + height, swordWidth, swordHeight);
     	}
+    	
     }
     
     @Override
@@ -280,6 +289,10 @@ public class Link extends BaseMovingEntity {
                 g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
             }
             g.drawImage(sprite, x , y, width , height , null);
+    	}
+    	
+    	if (swordHitbox != null && handler.DEBUG) {
+    		g.drawRect(swordHitbox.x, swordHitbox.y, swordHitbox.width, swordHitbox.height);
     	}
         
     }
