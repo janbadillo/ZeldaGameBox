@@ -48,13 +48,14 @@ public class Link extends BaseMovingEntity {
         upAttack = new Animation(64,Images.linkAttackUp);
         downAttack = new Animation(64,Images.linkAttackDown);
         
-        rightWalk = new Animation(64,Images.linkAttackLeft);
-        //walkAnimation = new Animation(animSpeed,animList);
+        walkAnimation = new Animation(animSpeed,animList);
         attackAnimation = new Animation(attackSpeed,sprite);
         handler.getZeldaGameState();
 		
         swordWidth = width/3;
         swordHeight = height;
+        
+        
     }
 
     @Override

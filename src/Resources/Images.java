@@ -70,6 +70,7 @@ public class Images {
     public static BufferedImage zeldaLinkImageRev;
     public SpriteSheet zeldaLinkSpriteSheet2;
     public static BufferedImage[] zeldaLinkFrames;
+    public static BufferedImage[] linkPickUp;
     
     public static BufferedImage[] linkWalkRight;
     public static BufferedImage[] linkWalkLeft;
@@ -150,6 +151,8 @@ public class Images {
         linkAttackUp = new BufferedImage[4];
         linkAttackDown = new BufferedImage[4];
         
+        zeldaLinkFrames = new BufferedImage[8];
+        linkPickUp = new BufferedImage[2];
 
         forestTiles = new ArrayList<>();
         caveTiles = new ArrayList<>();
@@ -157,7 +160,7 @@ public class Images {
         mountainTiles = new ArrayList<>();
         moveTiles = new ArrayList<>();
 
-        zeldaLinkFrames = new BufferedImage[8];
+        
 
         bouncyEnemyFrames = new BufferedImage[2];
         
@@ -347,8 +350,10 @@ public class Images {
             zeldaLinkFrames[3] = zeldaLinkSpriteSheet.crop(52,11,16,16);
             zeldaLinkFrames[4] = zeldaLinkSpriteSheet.crop(69,11,16,16);
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
-            zeldaLinkFrames[6] = zeldaLinkSpriteSheet.crop(213,11,16,16);
-            zeldaLinkFrames[7] = zeldaLinkSpriteSheet.crop(230,11,16,16);
+            
+            
+            linkPickUp[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);
+            linkPickUp[1] = zeldaLinkSpriteSheet.crop(230,11,16,16);
             
 
             //ATTACK UP
