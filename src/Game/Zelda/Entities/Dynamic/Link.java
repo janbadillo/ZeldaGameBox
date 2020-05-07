@@ -194,7 +194,7 @@ public class Link extends BaseMovingEntity {
                         animList[1] = sprites[5];
                         walkAnimation = new Animation(animSpeed, animList);
                         direction = UP;
-                        sprite = sprites[4];
+                        //sprite = sprites[4];
                     }
                     walkAnimation.tick();
                     move(direction);
@@ -206,7 +206,7 @@ public class Link extends BaseMovingEntity {
                         animList[1] = sprites[1];
                         walkAnimation = new Animation(animSpeed, animList);
                         direction = DOWN;
-                        sprite = sprites[0];
+                        //sprite = sprites[0];
                     }
                     walkAnimation.tick();
                     move(direction);
@@ -217,7 +217,7 @@ public class Link extends BaseMovingEntity {
                         animList[1] = Images.flipHorizontal(sprites[3]);
                         walkAnimation = new Animation(animSpeed, animList);
                         direction = Direction.LEFT;
-                        sprite = Images.flipHorizontal(sprites[3]);
+                        //sprite = Images.flipHorizontal(sprites[3]);
                     }
                     walkAnimation.tick();
                     move(direction);
@@ -228,7 +228,7 @@ public class Link extends BaseMovingEntity {
                         animList[1] = (sprites[3]);
                         walkAnimation = new Animation(animSpeed, animList);
                         direction = Direction.RIGHT;
-                        sprite = (sprites[3]);
+                        //sprite = (sprites[3]);
                     }
                     walkAnimation.tick();
                     move(direction);

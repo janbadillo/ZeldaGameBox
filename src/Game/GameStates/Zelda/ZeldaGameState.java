@@ -10,6 +10,7 @@ import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.WalkingSolidEntities;
 import Main.Handler;
+import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
@@ -35,6 +36,7 @@ public class ZeldaGameState extends State {
 	public ArrayList<SolidStaticEntities> caveObjects;
 	public ArrayList<WalkingSolidEntities> caveGrabbable;
 	public int temp = 0;
+	private Animation caveFire = new Animation(64,Images.npcFire);
 
 
 
@@ -80,6 +82,7 @@ public class ZeldaGameState extends State {
 	public void tick() {
 		link.tick();
 		if (inCave){
+			caveFire.tick();
 			if (!haveSword) {
 				Rectangle caveSword = new Rectangle(850,530,25,40);
 				if (link.getInteractBounds().intersects(caveSword)) {
@@ -121,8 +124,8 @@ public class ZeldaGameState extends State {
 			g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
 			g.drawString("  ALONE !   TAKE  THIS",(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
 			g.drawImage(Images.oldMan,835,460,50,50,null);
-			g.drawImage(Images.fire,705,460,50,50,null);
-			g.drawImage(Images.fire,960,460,50,50,null);
+			g.drawImage(caveFire.getCurrentFrame(),705,460,50,50,null);
+			g.drawImage(caveFire.getCurrentFrame(),960,460,50,50,null);
 			
 			//DUNGEON MUSIC
 			if(toggle == false) {
@@ -132,7 +135,7 @@ public class ZeldaGameState extends State {
 			
 			//displays the sword in cave
 			if(haveSword) {
-				//g.drawImage(Images.black,850,560,25,40,null);
+
 			}else{
 				g.drawImage(Images.sword,850,530,25,40,null);
 			}

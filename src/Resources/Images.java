@@ -102,6 +102,8 @@ public class Images {
     
     public static BufferedImage npcImageSheet;
     public SpriteSheet npcSpriteSheet;
+    public static BufferedImage enemiesImageSheet;
+    public SpriteSheet enemiesSpriteSheet;
     public static BufferedImage oldMan;
     public static BufferedImage fire;
     public static BufferedImage sword;
@@ -109,6 +111,7 @@ public class Images {
     public static BufferedImage redRupee;
     public static BufferedImage lifeTitle;
     public static BufferedImage[] linkHeart;
+    public static BufferedImage[] npcFire;
     
     public static BufferedImage zeldaItems;
     public SpriteSheet zeldaItemsSH;
@@ -165,6 +168,7 @@ public class Images {
         bouncyEnemyFrames = new BufferedImage[2];
         
         linkHeart = new BufferedImage[3];
+        npcFire = new BufferedImage[2];
 
         
 
@@ -288,8 +292,14 @@ public class Images {
             npcImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc.png"));    
             npcSpriteSheet = new SpriteSheet(npcImageSheet);
             oldMan = npcSpriteSheet.crop(18, 11, 16, 16);
-            fire = npcSpriteSheet.crop(52, 11, 16, 16);
+            
             black = npcSpriteSheet.crop(165, 10, 16, 18);
+            
+            //enemies and other
+            enemiesImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/sprites-enemies.png"));
+            enemiesSpriteSheet = new SpriteSheet(enemiesImageSheet);
+            npcFire[0] = enemiesSpriteSheet.crop(300, 0, 16, 16);
+            npcFire[1] = enemiesSpriteSheet.crop(300, 30, 16, 16);
             
             //extra items
             zeldaItems = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/zeldaITEMS.png"));    
