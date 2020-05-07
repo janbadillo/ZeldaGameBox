@@ -38,7 +38,7 @@ public class Animation {
             index++;
             timer = 0;
             if(index >= frames.length){
-                end =true;
+                end = true;
                 index = 0;
             }
         }
@@ -48,9 +48,19 @@ public class Animation {
     public BufferedImage getCurrentFrame(){
         return frames[index];
     }
+    
+    public BufferedImage getLastFrame(){
+        return frames[frames.length - 1];
+    }
+    public void setToLastFrame(){
+        index = frames.length - 1;
+    }
 
     public int getIndex() {
         return index;
+    }
+    public void setIndex(int i) {
+        index = i;
     }
 
     public void reset(){

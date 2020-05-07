@@ -25,14 +25,15 @@ public class Link extends BaseMovingEntity {
 
     private final int animSpeed = 120, attackSpeed = 40;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false, attackAnim = false;
+    public boolean movingMap = false, attackAnim = false, dead = false, armed = false, attacking, pickingUp = false;
     Direction movingTo;
-    public boolean dead = false, armed = false, attacking;
     public int maxHealth = 6;
     private int tempX, tempY,  // used for alligning link when attacking
-                swordWidth, swordHeight; // for establishing sword hitbox width and height;
-    Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk;
+                swordWidth, swordHeight, // for establishing sword hitbox width and height
+                pickUpCounter = 5;// counter for item pick up animation
+    Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
     public Rectangle swordHitbox;
+    BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -55,13 +56,12 @@ public class Link extends BaseMovingEntity {
         swordWidth = width/3;
         swordHeight = height;
         
-        
+        pickUpItem = new Animation(160,Images.linkPickUp);
     }
 
     @Override
     public void tick() {
-        if (movingMap){
-        	
+        if (movingMap){ 
             switch (movingTo) {
                 case RIGHT:
                     handler.getZeldaGameState().cameraOffsetX+=10;  ///FASTER CAMERA MOVEMENT
@@ -158,7 +158,35 @@ public class Link extends BaseMovingEntity {
         			moving = true;
         			swordHitbox = null;
         		}
-        	} else {
+        	} else if (pickingUp) {
+        		
+        		
+        		//////////// Un rebuluuuuuu ////////////
+        		if (pickUpItem.getIndex() == 1) {
+    				pickUpItem.setToLastFrame();
+        			if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+        				pickingUp = false;
+        				pickedUpItemSprite = null;
+        				moving = true;
+        			}
+        		} else {
+        			pickUpItem.setIndex(0);
+        			if (pickUpCounter > 0) {
+        				pickUpCounter--;
+        			} else {
+        				pickUpItem.setIndex(1);
+        				pickUpCounter = 10;
+        			}
+        		}
+        		////////////// Hopefully can fix...///////////
+        	}
+        	
+        	else {
+        		if (armed && !pickingUp) {
+                	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking) {
+                		attack();
+                    }
+                }
                 if (handler.getKeyManager().up) {
                     if (direction != UP) {
                         BufferedImage[] animList = new BufferedImage[2];
@@ -213,11 +241,6 @@ public class Link extends BaseMovingEntity {
         
         if(ZeldaGameState.haveSword) {
         	armed = true;
-        }
-        if (armed) {
-        	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking) {
-        		attack();
-            }
         }
 
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1)) { //goes into debug mode for cheats
@@ -279,17 +302,26 @@ public class Link extends BaseMovingEntity {
     	
     }
     
+    public void pickUpItem (BufferedImage a) { // Pick Up method needs the image of the item to be displayed above him.
+    	moving = false;
+    	pickedUpItemSprite = a;
+    	pickingUp = true;
+    }
+    
     @Override
     public void render(Graphics g) {
     	if(attacking) {
     		g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
+    	} else if (pickingUp) {
+    		g.drawImage(pickUpItem.getCurrentFrame(),x , y, width , height  , null);
+    		g.drawImage(pickedUpItemSprite,x + width/2 - swordWidth/2, y - swordHeight , swordWidth , swordHeight  , null);
     	} else if (moving) {
     		g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
     	} else {
     		if (movingMap){
                 g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
             }
-            g.drawImage(sprite, x , y, width , height , null);
+            g.drawImage(walkAnimation.getCurrentFrame(), x , y, width , height , null);
     	}
     	
     	if (swordHitbox != null && handler.DEBUG) {
@@ -390,4 +422,6 @@ public class Link extends BaseMovingEntity {
         changeIntersectingBounds();
 
     }
+    
+
 }

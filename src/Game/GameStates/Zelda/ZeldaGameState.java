@@ -80,7 +80,16 @@ public class ZeldaGameState extends State {
 	public void tick() {
 		link.tick();
 		if (inCave){
-
+			if (!haveSword) {
+				Rectangle caveSword = new Rectangle(850,530,25,40);
+				if (link.getInteractBounds().intersects(caveSword)) {
+					haveSword = true;
+					link.pickUpItem(Images.sword);
+					caveSword = null;
+					handler.getMusicHandler().playEffect("linkNewItem.wav");
+				}
+			}
+			
 
 
 		}else {
@@ -121,15 +130,14 @@ public class ZeldaGameState extends State {
 				toggle = true;
 			}
 			
-			link.render(g);
-			
-			//GRABS SWORD INTO ATTACKING MODE
-			if(haveSword == false && link.getInteractBounds().intersects(850,530,25,40)) {
-				haveSword = true;
-				g.drawImage(Images.black,850,560,25,40,null);
-			}else if(!haveSword) {
+			//displays the sword in cave
+			if(haveSword) {
+				//g.drawImage(Images.black,850,560,25,40,null);
+			}else{
 				g.drawImage(Images.sword,850,530,25,40,null);
-				}
+			}
+			
+			link.render(g);
 			
 		}else {
 			//OVERWORLD MUSIC
