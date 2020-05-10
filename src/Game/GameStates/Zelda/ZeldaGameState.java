@@ -3,7 +3,7 @@ package Game.GameStates.Zelda;
 import Game.GameStates.State;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.Direction;
-import Game.Zelda.Entities.Dynamic.Enemy;
+import Game.Zelda.Entities.Dynamic.JumpSpider;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -30,7 +30,7 @@ public class ZeldaGameState extends State {
 	public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
 	public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
 	public Link link;
-	public Enemy enemy;
+	public JumpSpider spider;
 	public static boolean haveSword = false;
 	public static boolean inCave = false;
 	public ArrayList<SolidStaticEntities> caveObjects;
@@ -72,7 +72,7 @@ public class ZeldaGameState extends State {
 		addWorldObjects();
 
 		link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
-		enemy = new Enemy(xOffset+(stageWidth/2),yOffset + (stageHeight/4),Images.bouncyEnemyFrames,handler);
+		//spider = new JumpSpider(xOffset+(stageWidth/2),yOffset + (stageHeight/4),Images.cyclopSpider,handler);
 
 	}
 
@@ -92,7 +92,6 @@ public class ZeldaGameState extends State {
 					handler.getMusicHandler().playEffect("linkNewItem.wav");
 				}
 			}
-			
 
 
 		}else {
@@ -159,7 +158,6 @@ public class ZeldaGameState extends State {
 				}
 			}
 			link.render(g);
-			enemy.render(g);
 			
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, xOffset, handler.getHeight());
@@ -218,17 +216,16 @@ public class ZeldaGameState extends State {
 				}
 			}
 		}
-		
 		caveObjects.add(new DungeonDoor(7,9,16*worldScale*2,16*worldScale * 2,Direction.DOWN,"caveStartLeave",handler,(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
 
 		//7,7
 		ArrayList<SolidStaticEntities> solids = new ArrayList<>();
 		ArrayList<BaseMovingEntity> monster = new ArrayList<>();
-		monster.add(new BaseMovingEntity(xOffset+(stageWidth/2),yOffset + (stageHeight/4), Images.bouncyEnemyFrames, handler));
-		solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-		solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
-		solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
-		solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
+		monster.add(new JumpSpider(xOffset+(stageWidth/2),yOffset + (stageHeight/4), Images.cyclopSpider, handler));
+		solids.add(new SectionDoor(0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+		solids.add(new SectionDoor(7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
+		solids.add(new DungeonDoor(4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+		solids.add(new SectionDoor(15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
 		solids.add(new SolidStaticEntities(6,0,Images.forestTiles.get(2),handler));
 		solids.add(new SolidStaticEntities(5,1,Images.forestTiles.get(5),handler));
 		solids.add(new SolidStaticEntities(6,1,Images.forestTiles.get(6),handler));

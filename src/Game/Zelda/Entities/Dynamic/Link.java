@@ -30,10 +30,12 @@ public class Link extends BaseMovingEntity {
     public int maxHealth = 6;
     private int tempX, tempY,  // used for alligning link when attacking
                 swordWidth, swordHeight, // for establishing sword hitbox width and height
-                pickUpCounter = 5;// counter for item pick up animation
+                pickUpCounter = 5,// counter for item pick up animation
+    			hitStunCounter; // for the flashing colors when link is damaged
     Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
     public Rectangle swordHitbox;
     BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
+    private boolean hitStun;
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -254,13 +256,7 @@ public class Link extends BaseMovingEntity {
         }
         
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && handler.DEBUG) {
-        	dead=true;
-        	health--;
-        	handler.getMusicHandler().playEffect("linkHurt.wav");
-        	if(health==0) {
-        		handler.getMusicHandler().triggerGameOver();
-        		State.setState(handler.getEndGameState());    //"We're in the EndGame Now" -DR Strange
-        	}
+        	damage(1);
         }
         
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Y) && maxHealth != 20 && handler.DEBUG) {
@@ -277,6 +273,17 @@ public class Link extends BaseMovingEntity {
         	handler.getMusicHandler().playEffect("linkHurt.wav");
         //press T to decrease maximum hearts (minimum is 6 hearts)
         }
+    }
+    
+    public void damage(int ammount) {
+    	hitStun = true;
+    	hitStunCounter = 10;
+    	health -= ammount;
+    	handler.getMusicHandler().playEffect("linkHurt.wav");
+    	if(health==0) {
+    		handler.getMusicHandler().triggerGameOver();
+    		State.setState(handler.getEndGameState());    //"We're in the EndGame Now" -DR Strange
+    	}
     }
     
     private void attack() {
@@ -310,6 +317,7 @@ public class Link extends BaseMovingEntity {
     
     @Override
     public void render(Graphics g) {
+    	
     	if(attacking) {
     		g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
     	} else if (pickingUp) {
@@ -324,8 +332,11 @@ public class Link extends BaseMovingEntity {
             g.drawImage(walkAnimation.getCurrentFrame(), x , y, width , height , null);
     	}
     	
-    	if (swordHitbox != null && handler.DEBUG) {
-    		g.drawRect(swordHitbox.x, swordHitbox.y, swordHitbox.width, swordHitbox.height);
+    	if (Handler.DEBUG) {// For rendering things only when debug is on.
+    		if(swordHitbox != null) {
+    			g.drawRect(swordHitbox.x, swordHitbox.y, swordHitbox.width, swordHitbox.height);
+    		}
+    		g.drawRect(interactBounds.x, interactBounds.y, interactBounds.width, interactBounds.height);
     	}
         
     }

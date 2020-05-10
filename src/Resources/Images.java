@@ -112,6 +112,7 @@ public class Images {
     public static BufferedImage lifeTitle;
     public static BufferedImage[] linkHeart;
     public static BufferedImage[] npcFire;
+    public static BufferedImage[] cyclopSpider;
     
     public static BufferedImage zeldaItems;
     public SpriteSheet zeldaItemsSH;
@@ -169,6 +170,7 @@ public class Images {
         
         linkHeart = new BufferedImage[3];
         npcFire = new BufferedImage[2];
+        cyclopSpider = new BufferedImage[2];
 
         
 
@@ -300,6 +302,11 @@ public class Images {
             enemiesSpriteSheet = new SpriteSheet(enemiesImageSheet);
             npcFire[0] = enemiesSpriteSheet.crop(300, 0, 16, 16);
             npcFire[1] = enemiesSpriteSheet.crop(300, 30, 16, 16);
+            
+            cyclopSpider[0] = enemiesSpriteSheet.crop(240, 181, 16, 16);
+            cyclopSpider[1] = enemiesSpriteSheet.crop(240, 212, 16, 16);
+            
+            
             
             //extra items
             zeldaItems = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/zeldaITEMS.png"));    
@@ -697,7 +704,7 @@ public class Images {
         // Create buffered image object
         BufferedImage img = null;
 
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB); 
         // file object
         File f = null;
 

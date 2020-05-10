@@ -20,7 +20,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 /**
  * Created by AlexVR on 3/15/2020
  */
-public class Enemy extends BaseMovingEntity {
+public class JumpSpider extends BaseMovingEntity {
 
 
 	private final int animSpeed = 120;
@@ -30,12 +30,12 @@ public class Enemy extends BaseMovingEntity {
 	public int health = 2;
 
 
-	public Enemy(int x, int y, BufferedImage[] sprite, Handler handler) {
+	public JumpSpider(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		speed = 4;
 		health = 6;
 
-		walkAnimation = new Animation(animSpeed,Images.bouncyEnemyFrames);
+		walkAnimation = new Animation(animSpeed,sprite);
 
 		handler.getZeldaGameState();
 
@@ -76,9 +76,8 @@ public class Enemy extends BaseMovingEntity {
 		if (moving) {
 			g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
 		} else {
-            
-            g.drawImage(Images.bouncyEnemyFrames[0], x , y, width , height , null);
-	}
+            g.drawImage(Images.cyclopSpider[0], x , y, width , height , null);
+		}
 	}
 
 	@Override
