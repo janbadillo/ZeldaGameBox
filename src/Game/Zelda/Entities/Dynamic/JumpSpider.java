@@ -28,14 +28,15 @@ public class JumpSpider extends BaseMovingEntity {
 	Direction movingTo;
 	public boolean dead = false;
 	public int health = 2;
+	private int count;
 
 
 	public JumpSpider(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
-		speed = 4;
-		health = 6;
+		speed = 15;
+		health = 2;
 
-		walkAnimation = new Animation(animSpeed,sprite);
+		walkAnimation = new Animation(animSpeed,Images.bouncyEnemyFrames);
 
 		handler.getZeldaGameState();
 
@@ -44,33 +45,25 @@ public class JumpSpider extends BaseMovingEntity {
 
 	@Override
 	public void tick() {
-		if(moving) {
-			if (direction != UP) {
-				direction = UP;
-				walkAnimation.tick();
-				move(direction);
-			}
-
-			else if (direction != DOWN) {
-				direction = DOWN;
-				walkAnimation.tick();
-				move(direction);
-			}
-			else if (direction != Direction.LEFT) {
-				direction = Direction.LEFT;
-				walkAnimation.tick();
-				move(direction);
-			}
-			else if (direction != Direction.RIGHT) {
-
-				walkAnimation.tick();
-				move(direction);
-			} else {
-				moving = false;
-			}
-		}
-	}
-
+		
+	
+	if (count > 0) {
+    	count--;
+    }
+    if(count == 0) {
+    	direction = Direction.randomDir();
+    	count = 30;
+    	walkAnimation.tick();
+    	move(direction);
+    }
+    
+    ///CRASHES THE GAME, pero aja hope u get lo que queria hacer para que el enemy reciba damage 
+    
+    //if(Link.swordHitbox.intersects(getInteractBounds()) && Link.attacking == true) {
+    //	damage(1);
+    //}
+    }
+	
 	@Override
 	public void render(Graphics g) {
 		if (moving) {
@@ -96,13 +89,13 @@ public class JumpSpider extends BaseMovingEntity {
 						
 					}
 					else {
-						if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
-							ZeldaGameState.inCave = true;
-							handler.getZeldaGameState().toggle = false;
-							x = ((DungeonDoor) objects).nLX;
-							y = ((DungeonDoor) objects).nLY;
-							direction = UP;
-						}
+						//if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
+						//	ZeldaGameState.inCave = true;
+						//	handler.getZeldaGameState().toggle = false;
+						//	x = ((DungeonDoor) objects).nLX;
+						//	y = ((DungeonDoor) objects).nLY;
+						//	direction = UP;
+						//}
 					}
 				}
 				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {

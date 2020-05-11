@@ -23,7 +23,7 @@ public class BaseMovingEntity extends BaseEntity {
     boolean dead = false;
 
 
-    Rectangle interactBounds;
+    Rectangle interactBounds; //changed to static
     public int health = 1;
 
     public BaseMovingEntity(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -78,7 +78,7 @@ public class BaseMovingEntity extends BaseEntity {
         }
     }
 
-    public Rectangle getInteractBounds() {
+    public Rectangle getInteractBounds() { //changed to static
         return interactBounds;
     }
 

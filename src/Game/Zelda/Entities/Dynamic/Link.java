@@ -25,7 +25,9 @@ public class Link extends BaseMovingEntity {
 
     private final int animSpeed = 120, attackSpeed = 40;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false, attackAnim = false, dead = false, armed = false, attacking, pickingUp = false;
+    public boolean movingMap = false, attackAnim = false, dead = false, armed = false;
+	public static boolean attacking;
+	public boolean pickingUp = false;
     Direction movingTo;
     public int maxHealth = 6;
     private int tempX, tempY,  // used for alligning link when attacking
@@ -33,7 +35,7 @@ public class Link extends BaseMovingEntity {
                 pickUpCounter = 5,// counter for item pick up animation
     			hitStunCounter; // for the flashing colors when link is damaged
     Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
-    public Rectangle swordHitbox;
+    public static Rectangle swordHitbox;
     BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
     private boolean hitStun;
     
