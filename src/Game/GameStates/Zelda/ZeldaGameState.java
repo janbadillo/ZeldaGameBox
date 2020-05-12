@@ -92,8 +92,6 @@ public class ZeldaGameState extends State {
 					handler.getMusicHandler().playEffect("linkNewItem.wav");
 				}
 			}
-
-
 		}else {
 
 			if (!link.movingMap) {
@@ -102,8 +100,22 @@ public class ZeldaGameState extends State {
 				}
 				for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
 					entity.tick();
-					if (entity.getInteractBounds().intersects(link.getInteractBounds())){
-						link.damage(1);
+					if (entity.getInteractBounds().intersects(link.upBound) || entity.getInteractBounds().intersects(link.downBound) || entity.getInteractBounds().intersects(link.leftBound) || entity.getInteractBounds().intersects(link.rightBound)){
+						if (!link.hitStun) {
+							link.damage(1);
+							if (entity.getInteractBounds().intersects(link.upBound)) {
+								link.knockBack(Direction.UP);
+							}
+							if (entity.getInteractBounds().intersects(link.downBound)) {
+								link.knockBack(Direction.DOWN);
+							}
+							if (entity.getInteractBounds().intersects(link.leftBound)) {
+								link.knockBack(Direction.LEFT);
+							}
+							if (entity.getInteractBounds().intersects(link.rightBound)) {
+								link.knockBack(Direction.RIGHT);
+							}
+						}
 					}
 				}
 			}
