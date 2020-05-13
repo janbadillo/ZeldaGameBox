@@ -23,13 +23,17 @@ public class ZeldaGameState extends State {
 
 
 	public static int xOffset,yOffset,stageWidth,stageHeight,worldScale;
-	public int cameraOffsetX,cameraOffsetY;
+	public static int cameraOffsetX;
+	public static int cameraOffsetY;
 	//map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
-	public int mapX,mapY,mapWidth,mapHeight;
+	public static int mapX;
+	public static int mapY;
+	public static int mapWidth;
+	public static int mapHeight;
 	public boolean toggle = true;
 	public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
 	public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
-	public Link link;
+	public static Link link;
 	public JumpSpider spider;
 	public static boolean haveSword = false;
 	public static boolean inCave = false;
@@ -101,7 +105,7 @@ public class ZeldaGameState extends State {
 				for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
 					entity.tick();
 					if (entity.getInteractBounds().intersects(link.upBound) || entity.getInteractBounds().intersects(link.downBound) || entity.getInteractBounds().intersects(link.leftBound) || entity.getInteractBounds().intersects(link.rightBound)){
-						if (!link.hitStun && !link.attacking) {
+						if (!link.hitStun && !Link.attacking) {
 							link.damage(1);
 							if (entity.getInteractBounds().intersects(link.upBound)) {
 								link.knockBack(Direction.UP);
@@ -189,20 +193,30 @@ public class ZeldaGameState extends State {
 		for (int i = 0; i < link.maxHealth/2; i++) {
 			g.drawImage(Images.linkHeart[0],480+30*i,220,25,25,null) ;
 		}
-		if (link.health % 2 == 0) {
-			for (int i = 0; i < link.health/2; i++) {
+		if (Link.health % 2 == 0) {
+			for (int i = 0; i < Link.health/2; i++) {
 				g.drawImage(Images.linkHeart[2],480+30*i,220,25,25,null) ;
-			//g.drawImage(Images.linkHeart[2],((handler.getWidth() / 3) + handler.getWidth() / 5)+ (((handler.getPacman().width) * 2) * (int)i),225, handler.getWidth() / 70, handler.getHeight() / 70,null ) ;
 			}
 		} else {
 			int i;
-			for (i = 0; i < (link.health - 1)/2; i++) {
+			for (i = 0; i < (Link.health - 1)/2; i++) {
 				g.drawImage(Images.linkHeart[2],480+30*i,220,25,25,null);
 			}
 			g.drawImage(Images.linkHeart[1],480+30*i,220,25,25,null);
 		}
-		
-
+	}
+	
+	public static void quitReset() {
+		Link.health = 6;
+		JumpSpider.health = 6;
+		link.x = xOffset+(stageWidth/2);
+		link.y= yOffset + (stageHeight/2);
+		mapX = 7;
+		mapY = 7;
+		cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
+		cameraOffsetY = ((mapHeight*mapY) + mapY + 1)*worldScale;
+		link.armed = false;
+		haveSword = false;
 	}
 
 	private void addWorldObjects() {

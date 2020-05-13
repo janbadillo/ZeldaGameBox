@@ -1,6 +1,5 @@
 package Game.Zelda.Entities.Dynamic;
 
-import Game.GameStates.State;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -10,12 +9,7 @@ import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-
-import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
-import static Game.Zelda.Entities.Dynamic.Direction.DOWN;
-import static Game.Zelda.Entities.Dynamic.Direction.UP;
 
 /**
  * Created by AlexVR on 3/15/2020
@@ -27,7 +21,7 @@ public class JumpSpider extends BaseMovingEntity {
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	Direction movingTo;
 	public boolean dead = false;
-	public int health = 2;
+	public static int health = 2;
 	private int count;
 
 

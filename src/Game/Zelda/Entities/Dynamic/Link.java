@@ -36,7 +36,7 @@ public class Link extends BaseMovingEntity {
                 swordWidth, swordHeight, // for establishing sword hitbox width and height
                 pickUpCounter = 5,// counter for item pick up animation
     			hitStunCounter, knockBackX, knockBackY;
-    private Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
+    private Animation attackAnimation,pickUpItem;
     public Rectangle swordHitbox, upBound, rightBound, leftBound, downBound;
     private BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
     
@@ -49,10 +49,10 @@ public class Link extends BaseMovingEntity {
         animList[0] = sprite[4];
         animList[1] = sprite[5];
 
-        leftAttack = new Animation(64,Images.linkAttackLeft);
-        rightAttack = new Animation(64,Images.linkAttackRight);
-        upAttack = new Animation(64,Images.linkAttackUp);
-        downAttack = new Animation(64,Images.linkAttackDown);
+        new Animation(64,Images.linkAttackLeft);
+        new Animation(64,Images.linkAttackRight);
+        new Animation(64,Images.linkAttackUp);
+        new Animation(64,Images.linkAttackDown);
         
         walkAnimation = new Animation(animSpeed,animList);
         attackAnimation = new Animation(attackSpeed,sprite);
@@ -281,23 +281,23 @@ public class Link extends BaseMovingEntity {
 			Handler.DEBUG = !Handler.DEBUG;
         }
         
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health < maxHealth && handler.DEBUG) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && health < maxHealth && Handler.DEBUG) {
         	health++;
         	handler.getMusicHandler().playEffect("getHeart.wav");
         //IF H IS PRESSED W/ DEBUG MODE ON health--CS
         }
         
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && handler.DEBUG) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && Handler.DEBUG) {
         	damage(1);
         }
         
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Y) && maxHealth != 20 && handler.DEBUG) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Y) && maxHealth != 20 && Handler.DEBUG) {
         	maxHealth += 2;
         	handler.getMusicHandler().playEffect("getHeart.wav");
         //press Y to increase maximum hearts
         }
         
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_U) && maxHealth != 6 && handler.DEBUG) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_U) && maxHealth != 6 && Handler.DEBUG) {
         	if (health == maxHealth) {
         		health -= 2;
         	}
@@ -320,7 +320,9 @@ public class Link extends BaseMovingEntity {
     		State.setState(handler.getEndGameState());    //"We're in the EndGame Now" -DR Strange
     	}
     }
-    
+    public static void continueReset() {
+    	health = 4;
+    }
     public void knockBack(Direction hitDirection) {
     	int knockValue = 50;
     	knockBackHelper(hitDirection,knockValue);
