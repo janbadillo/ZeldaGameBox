@@ -71,6 +71,7 @@ public class Images {
     public SpriteSheet zeldaLinkSpriteSheet2;
     public static BufferedImage[] zeldaLinkFrames;
     public static BufferedImage[] linkPickUp;
+    public static BufferedImage[] alternateColorExamples;
     
     public static BufferedImage[] linkWalkRight;
     public static BufferedImage[] linkWalkLeft;
@@ -157,6 +158,7 @@ public class Images {
         
         zeldaLinkFrames = new BufferedImage[8];
         linkPickUp = new BufferedImage[2];
+        alternateColorExamples = new BufferedImage[2];
 
         forestTiles = new ArrayList<>();
         caveTiles = new ArrayList<>();
@@ -367,6 +369,9 @@ public class Images {
             zeldaLinkFrames[3] = zeldaLinkSpriteSheet.crop(52,11,16,16);
             zeldaLinkFrames[4] = zeldaLinkSpriteSheet.crop(69,11,16,16);
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
+            
+            alternateColorExamples[0] = zeldaLinkSpriteSheet.crop(58,224,16,16);
+            alternateColorExamples[1] = zeldaLinkSpriteSheet.crop(109,224,16,16);
             
             
             linkPickUp[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);

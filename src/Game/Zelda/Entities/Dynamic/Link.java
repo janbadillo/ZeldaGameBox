@@ -392,14 +392,62 @@ public class Link extends BaseMovingEntity {
     
     @Override
     public void render(Graphics g) {
+    	//color of green is -8335344
+    	//second color is -3650548
+    	//third is -223176
+//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 0));
+//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 2));
+//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 5) + "\n");
+//    	
+//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 0));
+//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 2));
+//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 5)+ "\n");
+//    	
+//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 0));
+//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 2));
+//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 5)+ "\n");
+    	
+    	BufferedImage image = null;
+    	if (attacking) {
+    		image = attackAnimation.getCurrentFrame();
+    	} else if (moving) {
+    		image = walkAnimation.getCurrentFrame();
+    	}
+    	if (hitStun && image != null) {
+    		if (hitStunCounter % 2 == 0) {
+    			for(int i = 0; i < image.getWidth();i++)
+                    for(int j = 0; j < image.getHeight(); j ++) {
+                    	if (image.getRGB(i, j) == -8335344) {
+                    		image.setRGB(i,j , -16777216);
+                    	}else if (image.getRGB(i, j) == -3650548) {
+                    		image.setRGB(i,j , -2611200);
+                    	}else if (image.getRGB(i, j) == -223176) {
+                    		image.setRGB(i,j , -16744312);
+                    	}
+                    }
+    		} else{
+    			for(int i = 0; i < image.getWidth();i++)
+                    for(int j = 0; j < image.getHeight(); j ++) {
+                    	if (image.getRGB(i, j) == -8335344) {
+                    		image.setRGB(i,j , -197380);
+                    	} else if (image.getRGB(i, j) == -3650548) {
+                    		image.setRGB(i,j , -14665492);
+                    	} else if (image.getRGB(i, j) == -223176) {
+                    		image.setRGB(i,j , 16777215);
+                    	}
+                    }
+    		}
+    		
+    	}
+    	
     	
     	if(attacking) {
-    		g.drawImage(attackAnimation.getCurrentFrame(),x , y, width , height  , null);
+    		g.drawImage(image,x , y, width , height  , null);
     	} else if (pickingUp) {
     		g.drawImage(pickUpItem.getCurrentFrame(),x , y, width , height  , null);
     		g.drawImage(pickedUpItemSprite,x + width/2 - swordWidth/2, y - swordHeight , swordWidth , swordHeight  , null);
     	} else if (moving) {
-    		g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
+    		g.drawImage(image,x , y, width , height  , null);
     	} else {
     		if (movingMap){
                 g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
@@ -418,6 +466,7 @@ public class Link extends BaseMovingEntity {
     		g.drawRect(leftBound.x, leftBound.y, leftBound.width, leftBound.height);
     		g.drawRect(rightBound.x, rightBound.y, rightBound.width, rightBound.height);
     	}
+    	
         
     }
 
