@@ -73,10 +73,10 @@ public class Images {
     public static BufferedImage[] linkPickUp;
     public static BufferedImage[] alternateColorExamples;
     
-    public static BufferedImage[] linkWalkRight;
-    public static BufferedImage[] linkWalkLeft;
-    public static BufferedImage[] linkWalkUp;
-    public static BufferedImage[] linkWalkDown;
+    public  BufferedImage[] linkWalkRight;
+    public  BufferedImage[] linkWalkLeft;
+    public  BufferedImage[] linkWalkUp;
+    public  BufferedImage[] linkWalkDown;
     
     
     public static BufferedImage[] linkAttackRight;

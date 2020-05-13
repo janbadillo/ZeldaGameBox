@@ -23,7 +23,7 @@ public class BaseMovingEntity extends BaseEntity {
     boolean dead = false;
 
 
-    Rectangle interactBounds; //changed to static
+    Rectangle interactBounds, attackHitbox; //changed to static
     public int health = 1;
 
     public BaseMovingEntity(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -77,6 +77,16 @@ public class BaseMovingEntity extends BaseEntity {
                 break;
         }
     }
+    
+    public void updateAttackHitbox() {
+        attackHitbox = new Rectangle((int)(bounds.x + bounds.getWidth()/6), (int)(bounds.y + bounds.getHeight()/6), (int)(bounds.getWidth()-bounds.getWidth()/3), (int)(bounds.getHeight()-bounds.getHeight()/3));
+
+    }
+
+    public Rectangle getAttackHitbox() { //changed to static
+        return attackHitbox;
+    }
+
 
     public Rectangle getInteractBounds() { //changed to static
         return interactBounds;

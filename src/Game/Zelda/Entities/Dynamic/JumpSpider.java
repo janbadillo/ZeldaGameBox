@@ -45,17 +45,17 @@ public class JumpSpider extends BaseMovingEntity {
 
 	@Override
 	public void tick() {
-		
+		updateAttackHitbox();
 	
-	if (count > 0) {
-    	count--;
-    }
-    if(count == 0) {
-    	direction = Direction.randomDir();
-    	count = 30;
-    	walkAnimation.tick();
-    	move(direction);
-    }
+		if (count > 0) {
+	    	count--;
+	    }
+	    if(count == 0) {
+	    	direction = Direction.randomDir();
+	    	count = 30;
+	    	walkAnimation.tick();
+	    	move(direction);
+	    }
     
     ///CRASHES THE GAME, pero aja hope u get lo que queria hacer para que el enemy reciba damage 
     
@@ -70,6 +70,11 @@ public class JumpSpider extends BaseMovingEntity {
 			g.drawImage(walkAnimation.getCurrentFrame(),x , y, width , height  , null);
 		} else {
             g.drawImage(Images.cyclopSpider[0], x , y, width , height , null);
+		}
+		if(Handler.DEBUG) {
+			g.drawRect((int)this.getInteractBounds().getX(), (int)this.getInteractBounds().getY(), (int)this.getInteractBounds().getWidth(), (int)this.getInteractBounds().getWidth());
+			g.setColor(Color.red);
+			g.drawRect(attackHitbox.x,attackHitbox.y,attackHitbox.width,attackHitbox.height);
 		}
 	}
 

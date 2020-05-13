@@ -101,7 +101,7 @@ public class ZeldaGameState extends State {
 				for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
 					entity.tick();
 					if (entity.getInteractBounds().intersects(link.upBound) || entity.getInteractBounds().intersects(link.downBound) || entity.getInteractBounds().intersects(link.leftBound) || entity.getInteractBounds().intersects(link.rightBound)){
-						if (!link.hitStun) {
+						if (!link.hitStun && !link.attacking) {
 							link.damage(1);
 							if (entity.getInteractBounds().intersects(link.upBound)) {
 								link.knockBack(Direction.UP);

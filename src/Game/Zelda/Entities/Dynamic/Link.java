@@ -12,6 +12,8 @@ import Resources.Images;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
 import static Game.Zelda.Entities.Dynamic.Direction.DOWN;
@@ -34,9 +36,9 @@ public class Link extends BaseMovingEntity {
                 swordWidth, swordHeight, // for establishing sword hitbox width and height
                 pickUpCounter = 5,// counter for item pick up animation
     			hitStunCounter, knockBackX, knockBackY;
-    Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
+    private Animation attackAnimation,leftAttack,rightAttack,upAttack,downAttack,rightWalk,leftWalk,upWalk,downWalk,pickUpItem;
     public Rectangle swordHitbox, upBound, rightBound, leftBound, downBound;
-    BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
+    private BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
     
 
     public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -303,7 +305,9 @@ public class Link extends BaseMovingEntity {
         	handler.getMusicHandler().playEffect("linkHurt.wav");
         //press T to decrease maximum hearts (minimum is 6 hearts)
         }
-        updateHitbox();
+        if (!attacking) {
+        	updateHitbox();
+        }
     }
     
     public void damage(int ammount) {
@@ -390,28 +394,21 @@ public class Link extends BaseMovingEntity {
     	pickingUp = true;
     }
     
+    public static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
+    
     @Override
     public void render(Graphics g) {
-    	//color of green is -8335344
-    	//second color is -3650548
-    	//third is -223176
-//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 0));
-//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 2));
-//    	System.out.println(walkAnimation.getCurrentFrame().getRGB(8, 5) + "\n");
-//    	
-//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 0));
-//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 2));
-//    	System.out.println(Images.alternateColorExamples[0].getRGB(8, 5)+ "\n");
-//    	
-//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 0));
-//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 2));
-//    	System.out.println(Images.alternateColorExamples[1].getRGB(8, 5)+ "\n");
     	
     	BufferedImage image = null;
     	if (attacking) {
-    		image = attackAnimation.getCurrentFrame();
-    	} else if (moving) {
-    		image = walkAnimation.getCurrentFrame();
+    		image = deepCopy(attackAnimation.getCurrentFrame());
+    	} else{
+    		image = deepCopy(walkAnimation.getCurrentFrame());
     	}
     	if (hitStun && image != null) {
     		if (hitStunCounter % 2 == 0) {
@@ -437,7 +434,6 @@ public class Link extends BaseMovingEntity {
                     	}
                     }
     		}
-    		
     	}
     	
     	
@@ -452,7 +448,7 @@ public class Link extends BaseMovingEntity {
     		if (movingMap){
                 g.drawImage(walkAnimation.getCurrentFrame(),x , y, width, height  , null);
             }
-            g.drawImage(walkAnimation.getCurrentFrame(), x , y, width , height , null);
+            g.drawImage(image, x , y, width , height , null);
     	}
     	
     	if (Handler.DEBUG) {// For rendering things only when debug is on.
@@ -466,10 +462,9 @@ public class Link extends BaseMovingEntity {
     		g.drawRect(leftBound.x, leftBound.y, leftBound.width, leftBound.height);
     		g.drawRect(rightBound.x, rightBound.y, rightBound.width, rightBound.height);
     	}
-    	
         
     }
-
+    
     @Override
     public void move(Direction direction) {
         moving = true;
