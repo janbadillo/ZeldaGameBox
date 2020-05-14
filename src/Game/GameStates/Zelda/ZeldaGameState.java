@@ -76,7 +76,6 @@ public class ZeldaGameState extends State {
 		addWorldObjects();
 
 		link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
-		//spider = new JumpSpider(xOffset+(stageWidth/2),yOffset + (stageHeight/4),Images.cyclopSpider,handler);
 
 	}
 
@@ -104,7 +103,7 @@ public class ZeldaGameState extends State {
 				}
 				for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
 					entity.tick();
-					if (entity.getInteractBounds().intersects(link.upBound) || entity.getInteractBounds().intersects(link.downBound) || entity.getInteractBounds().intersects(link.leftBound) || entity.getInteractBounds().intersects(link.rightBound)){
+					if (entity.getAttackHitbox().intersects(link.upBound) || entity.getAttackHitbox().intersects(link.downBound) || entity.getAttackHitbox().intersects(link.leftBound) || entity.getAttackHitbox().intersects(link.rightBound)){
 						if (!link.hitStun && !Link.attacking) {
 							link.damage(1);
 							if (entity.getInteractBounds().intersects(link.upBound)) {
