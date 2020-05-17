@@ -20,9 +20,9 @@ public class JumpSpider extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	Direction movingTo;
-	public boolean dead = false;
+	public boolean dead = false,knockedBack = false, hitStun = false;
 	public static int health = 2;
-	private int count;
+	private int count,hitStunCounter, knockBackX, knockBackY;
 
 
 	public JumpSpider(int x, int y, BufferedImage[] sprite, Handler handler) {
@@ -50,7 +50,30 @@ public class JumpSpider extends BaseMovingEntity {
 	    	walkAnimation.tick();
 	    	move(direction);
 	    }
-    
+	    if (knockedBack) {
+    		int knockBackSpeed = 10;
+    		int errorRange = 10;
+    		if (x > knockBackX - errorRange && x < knockBackX + errorRange && y > knockBackY - errorRange && y < knockBackY + errorRange) {
+    			knockedBack = false;
+    		} else {
+    			if (!(x > knockBackX - errorRange && x < knockBackX + errorRange)) {
+    				if (x < knockBackX) {
+            			x += knockBackSpeed;
+            		} else {
+            			x -= knockBackSpeed;
+            		}
+    			}
+    			if (!(y > knockBackY - errorRange && y < knockBackY + errorRange)) {
+    				if (y < knockBackY) {
+            			y += knockBackSpeed;
+            		} else {
+            			y -= knockBackSpeed;
+            		}
+    			}
+            		
+    		}
+	    }
+	
     ///CRASHES THE GAME, pero aja hope u get lo que queria hacer para que el enemy reciba damage 
     
     //if(Link.swordHitbox.intersects(getInteractBounds()) && Link.attacking == true) {
@@ -58,6 +81,22 @@ public class JumpSpider extends BaseMovingEntity {
     //}
     }
 	
+	@Override
+    public void damage(int amount) {
+		handler.getMusicHandler().playEffect("laser.wav");
+    	if(health==0) {
+    		handler.getMusicHandler().playEffect("explosion.wav");
+    		dead = true;
+    	}
+    }
+	
+	@Override
+	public void knockBack(Direction hitDirection) {
+    	int knockValue = 60;
+    	knockBackHelper(hitDirection,knockValue);
+    	
+    }
+    	
 	@Override
 	public void render(Graphics g) {
 		if (moving) {
@@ -70,6 +109,32 @@ public class JumpSpider extends BaseMovingEntity {
 			g.setColor(Color.red);
 			g.drawRect(attackHitbox.x,attackHitbox.y,attackHitbox.width,attackHitbox.height);
 		}
+		BufferedImage image = null;
+		if (hitStun && image != null) {
+    		if (hitStunCounter % 2 == 0) {
+    			for(int i = 0; i < image.getWidth();i++)
+                    for(int j = 0; j < image.getHeight(); j ++) {
+                    	if (image.getRGB(i, j) == -8335344) {
+                    		image.setRGB(i,j , -16777216);
+                    	}else if (image.getRGB(i, j) == -3650548) {
+                    		image.setRGB(i,j , -2611200);
+                    	}else if (image.getRGB(i, j) == -223176) {
+                    		image.setRGB(i,j , -16744312);
+                    	}
+                    }
+    		} else{
+    			for(int i = 0; i < image.getWidth();i++)
+                    for(int j = 0; j < image.getHeight(); j ++) {
+                    	if (image.getRGB(i, j) == -8335344) {
+                    		image.setRGB(i,j , -197380);
+                    	} else if (image.getRGB(i, j) == -3650548) {
+                    		image.setRGB(i,j , -14665492);
+                    	} else if (image.getRGB(i, j) == -223176) {
+                    		image.setRGB(i,j , 16777215);
+                    	}
+                    }
+    		}
+    	}
 	}
 
 	@Override

@@ -121,10 +121,27 @@ public class ZeldaGameState extends State {
 						}
 					}
 				}
+				/*
+				if (spider.getAttackHitbox().intersects(link.swordHitbox)) { 
+						spider.damage(1);
+						if (link.direction == Direction.RIGHT) {
+							spider.knockBack(Direction.RIGHT);
+						}
+						if (link.direction == Direction.UP) {
+							spider.knockBack(Direction.UP);
+						}
+						if (link.direction == Direction.LEFT) {
+							spider.knockBack(Direction.LEFT);
+						}
+						if (link.direction == Direction.DOWN) {
+							spider.knockBack(Direction.DOWN);
+						}
+					}*/
+				}
 			}
 		}
+	
 
-	}
 
 	@Override
 	public void render(Graphics g) {
@@ -140,29 +157,29 @@ public class ZeldaGameState extends State {
 			g.drawImage(Images.oldMan,835,460,50,50,null);
 			g.drawImage(caveFire.getCurrentFrame(),705,460,50,50,null);
 			g.drawImage(caveFire.getCurrentFrame(),960,460,50,50,null);
-			
+
 			//DUNGEON MUSIC
 			if(toggle == false) {
 				handler.getMusicHandler().changeMusic("TempleTime.wav");
 				toggle = true;
 			}
-			
+
 			//displays the sword in cave
 			if(haveSword) {
 
 			}else{
 				g.drawImage(Images.sword,850,530,25,40,null);
 			}
-			
+
 			link.render(g);
-			
+
 		}else {
 			//OVERWORLD MUSIC
 			if(toggle==true) {
 				handler.getMusicHandler().changeMusic("zeldaoverworld.wav");
 				toggle = false;
 			}
-			
+
 			g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
 			if (!link.movingMap) {
 				for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
@@ -173,7 +190,7 @@ public class ZeldaGameState extends State {
 				}
 			}
 			link.render(g);
-			
+
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, xOffset, handler.getHeight());
 			g.fillRect(xOffset + stageWidth, 0, handler.getWidth(), handler.getHeight());
@@ -187,8 +204,8 @@ public class ZeldaGameState extends State {
 		}
 		//HEALTH IMPLEMENTATION
 		g.drawImage(Images.lifeTitle,480,170,170,30,null) ;
-		
-		
+
+
 		for (int i = 0; i < link.maxHealth/2; i++) {
 			g.drawImage(Images.linkHeart[0],480+30*i,220,25,25,null) ;
 		}
@@ -204,7 +221,7 @@ public class ZeldaGameState extends State {
 			g.drawImage(Images.linkHeart[1],480+30*i,220,25,25,null);
 		}
 	}
-	
+
 	public static void quitReset() {
 		Link.health = 6;
 		JumpSpider.health = 6;

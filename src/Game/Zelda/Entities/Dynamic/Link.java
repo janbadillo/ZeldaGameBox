@@ -27,15 +27,14 @@ public class Link extends BaseMovingEntity {
 
     private final int animSpeed = 120, attackSpeed = 40;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false, attackAnim = false, dead = false, armed = false,hitStun = false, knockedBack = false;
+    public boolean movingMap = false, attackAnim = false, dead = false, armed = false, hitStun = false;
 	public static boolean attacking;
 	public boolean pickingUp = false;
     Direction movingTo;
     public int maxHealth = 6;
     private int tempX, tempY,  // used for alligning link when attacking
                 swordWidth, swordHeight, // for establishing sword hitbox width and height
-                pickUpCounter = 5,// counter for item pick up animation
-    			hitStunCounter, knockBackX, knockBackY;
+                pickUpCounter = 5;// counter for item pick up animation
     private Animation attackAnimation,pickUpItem;
     public Rectangle swordHitbox, upBound, rightBound, leftBound, downBound;
     private BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
@@ -309,11 +308,11 @@ public class Link extends BaseMovingEntity {
         	updateHitbox();
         }
     }
-    
-    public void damage(int ammount) {
+    @Override
+    public void damage(int amount) {
     	hitStun = true;
     	hitStunCounter = 30;
-    	health -= ammount;
+    	health -= amount;
     	handler.getMusicHandler().playEffect("linkHurt.wav");
     	if(health==0) {
     		handler.getMusicHandler().triggerGameOver();
@@ -323,41 +322,7 @@ public class Link extends BaseMovingEntity {
     public static void continueReset() {
     	health = 4;
     }
-    public void knockBack(Direction hitDirection) {
-    	int knockValue = 50;
-    	knockBackHelper(hitDirection,knockValue);
-    	
-    }
     
-    public void knockBackHelper(Direction hitDirection, int knockBackValue) {
-    	
-    	if (!knockedBack) {
-    		knockBackX = x;
-    		knockBackY = y;
-    	} else {
-    		knockedBack = true;
-    	}
-    	
-    	
-    	knockedBack = true;
-    	if(hitDirection == Direction.RIGHT) {
-    		knockBackX = x - knockBackValue;
-    	} else if (hitDirection == Direction.LEFT) {
-    		knockBackX = x + knockBackValue;
-    	} else if(hitDirection == Direction.UP) {
-    		knockBackY = y + knockBackValue;
-    	} else {
-    		knockBackY = y - knockBackValue;
-    	}
-    	
-    	Rectangle bounds = new Rectangle(knockBackX, knockBackY, super.bounds.width, super.bounds.height);
-    	for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-    		if (!(objects instanceof SectionDoor) && objects.bounds.intersects(bounds)) {
-    			knockBackHelper(hitDirection,knockBackValue - 4); // generate new knockback x/y coordinates if link were to collide with a wall
-    		}
-    	}
-    	
-    }
     
     private void updateHitbox() {
     	int cornerBox = width/6; // Hypothetical width and height of an empty square inside link's bounds' corners.

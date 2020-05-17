@@ -2,6 +2,8 @@ package Game.Zelda.Entities.Dynamic;
 
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.BaseEntity;
+import Game.Zelda.Entities.Statics.SectionDoor;
+import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Main.Handler;
 import Resources.Animation;
 
@@ -16,11 +18,11 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class BaseMovingEntity extends BaseEntity {
 
     int speed;
-    Direction direction;
+    public Direction direction;
     Animation walkAnimation;
     BufferedImage[] sprites;
-    boolean moving = false;
-    boolean dead = false;
+    boolean moving = false, dead = false, knockedBack=false, hitStun = false;
+    int hitStunCounter, knockBackX, knockBackY;
 
 
     Rectangle interactBounds, attackHitbox; //changed to static
@@ -46,7 +48,41 @@ public class BaseMovingEntity extends BaseEntity {
         }
 
     }
-
+    public void knockBack(Direction hitDirection) {
+    	int knockValue = 50;
+    	knockBackHelper(hitDirection,knockValue);
+    	
+    }
+    
+    public void knockBackHelper(Direction hitDirection, int knockBackValue) {
+    	
+    	if (!knockedBack) {
+    		knockBackX = x;
+    		knockBackY = y;
+    	} else {
+    		knockedBack = true;
+    	}
+    	
+    	
+    	knockedBack = true;
+    	if(hitDirection == Direction.RIGHT) {
+    		knockBackX = x - knockBackValue;
+    	} else if (hitDirection == Direction.LEFT) {
+    		knockBackX = x + knockBackValue;
+    	} else if(hitDirection == Direction.UP) {
+    		knockBackY = y + knockBackValue;
+    	} else {
+    		knockBackY = y - knockBackValue;
+    	}
+    	
+    	Rectangle bounds = new Rectangle(knockBackX, knockBackY, super.bounds.width, super.bounds.height);
+    	for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+    		if (!(objects instanceof SectionDoor) && objects.bounds.intersects(bounds)) {
+    			knockBackHelper(hitDirection,knockBackValue - 4); // generate new knockback x/y coordinates if link were to collide with a wall
+    		}
+    	}
+    	
+    }
     @Override
     public void render(Graphics g) {
         if (!dead) {
