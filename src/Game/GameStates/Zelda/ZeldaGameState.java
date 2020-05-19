@@ -1,6 +1,7 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
+import Game.PacMan.entities.Statics.BaseStatic;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.JumpSpider;
@@ -98,6 +99,7 @@ public class ZeldaGameState extends State {
 		}else {
 
 			if (!link.movingMap) {
+				ArrayList<BaseMovingEntity> remove = new ArrayList<>();
 				for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
 					entity.tick();
 				}
@@ -120,7 +122,22 @@ public class ZeldaGameState extends State {
 							}
 						}
 					}
+					if(link.swordHitbox != null) {
+						if(entity.bounds.intersects(link.swordHitbox)){
+							entity.damage(1);
+							entity.knockBack(link.direction);
+						}
+					}
+					if (entity instanceof JumpSpider) {
+						if (((JumpSpider) entity).dead) {
+							remove.add(entity);
+						}
+					}
 				}
+				for (BaseMovingEntity removing: remove){
+                    enemies.get(mapX).get(mapY).remove(removing);
+                }
+				
 				/*
 				if (spider.getAttackHitbox().intersects(link.swordHitbox)) { 
 						spider.damage(1);

@@ -9,6 +9,7 @@ import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -21,7 +22,7 @@ public class JumpSpider extends BaseMovingEntity {
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	Direction movingTo;
 	public boolean dead = false,knockedBack = false, hitStun = false;
-	public static int health = 2;
+	public int hp = 2;
 	private int count,hitStunCounter, knockBackX, knockBackY;
 
 
@@ -72,7 +73,12 @@ public class JumpSpider extends BaseMovingEntity {
     			}
             		
     		}
+    		
 	    }
+	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)) {
+			damage(1);
+			System.out.print("ye");
+		}
 	
     ///CRASHES THE GAME, pero aja hope u get lo que queria hacer para que el enemy reciba damage 
     
@@ -84,10 +90,10 @@ public class JumpSpider extends BaseMovingEntity {
 	@Override
     public void damage(int amount) {
 		handler.getMusicHandler().playEffect("laser.wav");
-    	if(health==0) {
-    		handler.getMusicHandler().playEffect("explosion.wav");
-    		dead = true;
-    	}
+		hp-=amount;
+        if (hp<=0){
+            dead = true;
+        }
     }
 	
 	@Override
@@ -108,33 +114,10 @@ public class JumpSpider extends BaseMovingEntity {
 			g.drawRect((int)this.getInteractBounds().getX(), (int)this.getInteractBounds().getY(), (int)this.getInteractBounds().getWidth(), (int)this.getInteractBounds().getWidth());
 			g.setColor(Color.red);
 			g.drawRect(attackHitbox.x,attackHitbox.y,attackHitbox.width,attackHitbox.height);
+			g.setColor(Color.GREEN);
+			g.drawRect(bounds.x,bounds.y,bounds.width,bounds.height);
+			g.setColor(Color.YELLOW);
 		}
-		BufferedImage image = null;
-		if (hitStun && image != null) {
-    		if (hitStunCounter % 2 == 0) {
-    			for(int i = 0; i < image.getWidth();i++)
-                    for(int j = 0; j < image.getHeight(); j ++) {
-                    	if (image.getRGB(i, j) == -8335344) {
-                    		image.setRGB(i,j , -16777216);
-                    	}else if (image.getRGB(i, j) == -3650548) {
-                    		image.setRGB(i,j , -2611200);
-                    	}else if (image.getRGB(i, j) == -223176) {
-                    		image.setRGB(i,j , -16744312);
-                    	}
-                    }
-    		} else{
-    			for(int i = 0; i < image.getWidth();i++)
-                    for(int j = 0; j < image.getHeight(); j ++) {
-                    	if (image.getRGB(i, j) == -8335344) {
-                    		image.setRGB(i,j , -197380);
-                    	} else if (image.getRGB(i, j) == -3650548) {
-                    		image.setRGB(i,j , -14665492);
-                    	} else if (image.getRGB(i, j) == -223176) {
-                    		image.setRGB(i,j , 16777215);
-                    	}
-                    }
-    		}
-    	}
 	}
 
 	@Override
