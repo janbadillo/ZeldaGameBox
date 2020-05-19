@@ -21,6 +21,7 @@ public class MMBaseMovingEntity extends MMBaseEntity {
     BufferedImage[] sprites;
     boolean moving = false;
     public Rectangle interactBounds;
+    public Rectangle tileInteract;
 
     public MMBaseMovingEntity(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite[0], handler);
@@ -32,7 +33,11 @@ public class MMBaseMovingEntity extends MMBaseEntity {
         interactBounds.y+=(height/2);
         interactBounds.height/=2;
     }
-
+    
+    public void updateTileInteract() {
+    	tileInteract = new Rectangle(y + height*3/4, x + width/2 , 5, 5);
+    }
+    
     @Override
     public void tick() {
         super.tick();

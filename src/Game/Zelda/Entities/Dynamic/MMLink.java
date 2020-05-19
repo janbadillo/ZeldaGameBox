@@ -26,21 +26,24 @@ public class MMLink extends MMBaseMovingEntity {
     private final int animSpeed = 120;
     public Map map;
 
-
     public MMLink(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
         speed = 4;
         width = sprite[0].getWidth() * ZeldaMapMakerState.scale;
-        height = sprite[0].getHeight()* ZeldaMapMakerState.scale;
+        height = sprite[0].getHeight() * ZeldaMapMakerState.scale;
         BufferedImage[] animList = new BufferedImage[2];
         animList[0] = sprite[4];
         animList[1] = sprite[5];
 
         animation = new Animation(animSpeed,animList);
+        updateTileInteract();
     }
+    
+
 
     @Override
     public void tick() {
+    	updateTileInteract();
             if (handler.getKeyManager().up) {
                 if (direction != UP) {
                     BufferedImage[] animList = new BufferedImage[2];

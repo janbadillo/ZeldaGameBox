@@ -37,7 +37,7 @@ public class Link extends BaseMovingEntity {
                 pickUpCounter = 5,// counter for item pick up animation
     			hitStunCounter, knockBackX, knockBackY;
     private Animation attackAnimation,pickUpItem;
-    public Rectangle swordHitbox, upBound, rightBound, leftBound, downBound;
+    public Rectangle swordHitbox, upBound, rightBound, leftBound, downBound, tileInteract;
     private BufferedImage pickedUpItemSprite; // image of item that will displayed when link picks it up
     
 
@@ -66,6 +66,7 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	tileInteract = new Rectangle(y + height*3/4, x + width/2 , 1, 1);
     	if (hitStunCounter <= 0) {
     		hitStun = false;
     	} else {
@@ -558,6 +559,10 @@ public class Link extends BaseMovingEntity {
         bounds.y = y;
         changeIntersectingBounds();
 
+    }
+    
+    public Rectangle getTileInteract() {
+    	return tileInteract;
     }
     
 
