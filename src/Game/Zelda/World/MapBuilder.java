@@ -2,6 +2,7 @@ package Game.Zelda.World;
 
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.Zelda.Entities.Dynamic.MMLink;
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import Game.Zelda.Entities.Statics.MMSolidStaticEntities;
 import Game.Zelda.Entities.Statics.MMTeleport;
 import Game.Zelda.Entities.Statics.MMWalkingSolidEntities;
@@ -9,6 +10,9 @@ import Main.Handler;
 import Resources.Images;
 
 import javax.imageio.ImageIO;
+
+import com.sun.javafx.scene.traversal.Direction;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -28,7 +32,7 @@ public class MapBuilder {
 		}
 		name+=".txt";
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name;
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name; // /out/ or /bin/ ???
 		ArrayList<ArrayList<int[]>> linkedTeli = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader( new File(path2)));
@@ -663,6 +667,18 @@ public class MapBuilder {
 					MMTeleport ghost = new MMTeleport(xPos, yPos, Images.graveTiles.get(41), handler);
 					mapInCreation.addBlock(ghost);
 					checkForTeli(ghost,xPos,yPos,linkedTeli);
+				}else if(currentPixel == upMove) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.moveTiles.get(0), handler, Direction.UP);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == downMove) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.moveTiles.get(1), handler, Direction.DOWN);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == leftMove) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.moveTiles.get(2), handler, Direction.LEFT);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == rightMove) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.moveTiles.get(3), handler, Direction.RIGHT);
+					mapInCreation.addBlock(ghost);
 				}else if(currentPixel == Link) {
 					MMLink ghost = new MMLink(xPos, yPos, Images.zeldaLinkFrames, handler);
 					mapInCreation.addEnemy(ghost);
@@ -683,7 +699,7 @@ public class MapBuilder {
 	public static BufferedImage arrayToRGBImage(ArrayList<ArrayList<BufferedImage>> info,String name,ArrayList<ArrayList<int[]>> teleportList){
 
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";   // /out/ or /bin/???
 		File imagess = new File(path2.replaceAll("%20"," "));
 		if (imagess.exists()){
 			try {
@@ -1093,6 +1109,14 @@ public class MapBuilder {
 					image.setRGB(x,y,grave41);
 				}else if (Images.zeldaLinkFrames[0].equals(info.get(x).get(y))){
 					image.setRGB(x,y,Link);
+				}else if (Images.moveTiles.get(0).equals(info.get(x).get(y))){ //Up moveTile
+					image.setRGB(x,y,upMove);
+				}else if (Images.moveTiles.get(1).equals(info.get(x).get(y))){ //down moveTile
+					image.setRGB(x,y,downMove);
+				}else if (Images.moveTiles.get(2).equals(info.get(x).get(y))){ //left moveTile
+					image.setRGB(x,y,leftMove);
+				}else if (Images.moveTiles.get(3).equals(info.get(x).get(y))){ //right moveTile
+					image.setRGB(x,y,rightMove);
 				}
 
 
@@ -1101,8 +1125,8 @@ public class MapBuilder {
 
 		try {
 			path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-			path2 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".png";
-			String path3 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".txt";
+			path2 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".png"; // /out/ or /bin/???
+			String path3 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".txt";
 			f = new File(path2.replaceAll("%20", " "));
 			System.out.println("File saved in: " + path2);
 			ImageIO.write(image, "png", f);
@@ -1161,6 +1185,10 @@ public class MapBuilder {
 	public static int pixelMultiplier = ZeldaMapMakerState.pixelsPerSquare;//change this for size of blocks
 
 	public static int Link = new Color(0, 255, 0).getRGB();
+	public static int upMove = new Color(0, 255, 1).getRGB();
+	public static int downMove = new Color(0, 255, 2).getRGB();
+	public static int leftMove = new Color(0, 255, 3).getRGB();
+	public static int rightMove = new Color(0, 255, 4).getRGB();
 
 
 	//dungeons
